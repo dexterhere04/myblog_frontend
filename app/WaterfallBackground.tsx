@@ -152,29 +152,6 @@ export default function WaterfallBackground() {
       >
         <WaterfallPlane />
       </Canvas>
-      <div style={{
-        position: 'relative',
-        zIndex: 1,
-        padding: '8rem 2rem 2rem',
-        color: 'white',
-        maxWidth: '800px',
-        margin: '0 auto'
-      }}>
-        <div style={{
-          background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          borderRadius: '16px',
-          padding: '2rem',
-          marginBottom: '2rem'
-        }}>
-          <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Heyyy Tharun here</h1>
-          <p style={{ lineHeight: '1.6', marginBottom: '1rem' }}>
-            This is my blogs site where I share my thoughts on technology, programming, and life.
-          </p>
-        </div>
-      </div>
     </div>
   );
 }
