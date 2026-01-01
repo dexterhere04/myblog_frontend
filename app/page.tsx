@@ -7,7 +7,9 @@ export default function Home() {
   return (
     <div className="relative min-h-screen overflow-hidden">
     <HeroSection />
-    <MountainDivider />
+    <div className="-mt-150">
+      <MountainDivider />
+    </div>
     <BlogsSection />
     </div>
   );

@@ -2,7 +2,7 @@ import React from 'react'
 
 function HeroSection() {
   return (
-    <section className="hero-section flex flex-col items-center justify-start text-center  pt-25 pb-20 relative z-10 min-h-screen">
+    <section className="hero-section flex flex-col items-center justify-start text-center  pt-25 pb-5 relative z-10 min-h-screen">
    
       <div className="relative z-20 max-w-4xl">
     
