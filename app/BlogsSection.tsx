@@ -74,7 +74,7 @@ function BlogsSection() {
         {/* Header */}
         <div className="text-center mb-20">
           <span className="text-sm font-semibold tracking-widest uppercase text-gray-600">
-            From the Journal
+            From the Code
           </span>
           <h2 className="text-5xl font-bold mt-3 mb-5 text-gray-900">
             Latest Insights
