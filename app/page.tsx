@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="relative min-h-screen overflow-hidden">
     <HeroSection />
-    <div className="-mt-36 md:-mt-48 lg:-mt-150">
+    <div className="-mt-36 md:-mt-38 lg:-mt-30">
 
       <MountainDivider />
     </div>
