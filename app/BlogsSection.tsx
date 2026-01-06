@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 
 function BlogsSection() {
-  const [hoveredCard, setHoveredCard] = useState(null);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const blogs = [
     {
