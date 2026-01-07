@@ -1,60 +1,62 @@
-"use client";
-import React, { useRef, useMemo } from "react";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import * as THREE from "three";
+"use client"
+
+import React, { useRef } from "react"
+import { Canvas, useFrame } from "@react-three/fiber"
+import * as THREE from "three"
 
 function WaterfallPlane() {
-  const materialRef = useRef<THREE.ShaderMaterial | null>(null);
-  
-  const noiseTexture = useLoader(THREE.TextureLoader, "/textures/noise.png");
-  const flowTexture = useLoader(THREE.TextureLoader, "/textures/flow.png");
-
-  useMemo(() => {
-    [noiseTexture, flowTexture].forEach(tex => {
-      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-      tex.minFilter = THREE.LinearMipMapLinearFilter;
-      tex.magFilter = THREE.LinearFilter;
-      tex.anisotropy = 4;
-      tex.generateMipmaps = true;
-    });
-  }, [noiseTexture, flowTexture]);
+  const materialRef = useRef<THREE.ShaderMaterial | null>(null)
 
   useFrame(({ clock }) => {
     if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = clock.elapsedTime;
+      materialRef.current.uniforms.uTime.value = clock.elapsedTime
+      materialRef.current.uniforms.uResolution.value.set(
+        window.innerWidth,
+        window.innerHeight
+      )
     }
-  });
+  })
 
   return (
-    <mesh scale={[10, 10, 1]}>
+    <mesh scale={[20, 15, 1]} position={[0, 0, 0]}>
       <planeGeometry args={[1, 1, 128, 128]} />
       <shaderMaterial
         ref={materialRef}
         transparent
         uniforms={{
           uTime: { value: 0 },
-          uNoise: { value: noiseTexture },
-          uFlow: { value: flowTexture },
+          uResolution: {
+            value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+          },
         }}
         vertexShader={`
           varying vec2 vUv;
           uniform float uTime;
-          uniform sampler2D uNoise;
-          uniform sampler2D uFlow;
+
+          float hash(float n) {
+            return fract(sin(n) * 43758.5453123);
+          }
+
+          float noise(vec2 p) {
+            vec2 i = floor(p);
+            vec2 f = fract(p);
+            f = f * f * (3.0 - 2.0 * f);
+
+            float a = hash(i.x + i.y * 57.0);
+            float b = hash(i.x + 1.0 + i.y * 57.0);
+            float c = hash(i.x + (i.y + 1.0) * 57.0);
+            float d = hash(i.x + 1.0 + (i.y + 1.0) * 57.0);
+
+            return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+          }
 
           void main() {
             vUv = uv;
             vec3 pos = position;
 
-            vec2 flowUv = uv + vec2(0.0, uTime * 0.15);
-            vec2 flowVector = texture2D(uFlow, flowUv).rg * 2.0 - 1.0;
-            
-            float wave1 = sin(uv.x * 20.0 - uTime * 2.0) * 0.02;
-            float wave2 = sin(uv.x * 15.0 + uTime * 1.5) * 0.015;
-            
-            vec2 noiseUv = vec2(uv.x * 10.0, uv.y * 5.0 - uTime * 0.1);
-            float noiseVal = texture2D(uNoise, noiseUv).r;
-            float wave3 = noiseVal * 0.03;
+            float wave1 = sin(uv.x * 18.0 - uTime * 1.5) * 0.02;
+            float wave2 = sin(uv.x * 12.0 + uTime * 1.2) * 0.018;
+            float wave3 = noise(vec2(uv.x * 8.0, uv.y * 6.0 + uTime * 0.8)) * 0.025;
 
             pos.z += wave1 + wave2 + wave3;
 
@@ -64,141 +66,118 @@ function WaterfallPlane() {
         fragmentShader={`
           varying vec2 vUv;
           uniform float uTime;
-          uniform sampler2D uNoise;
-          uniform sampler2D uFlow;
+          uniform vec2 uResolution;
 
-          // Hash function for procedural noise
-          float hash(vec2 p) {
-            return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+          float hash(float n) {
+            return fract(sin(n) * 43758.5453123);
           }
 
-          // Simple 2D noise
           float noise(vec2 p) {
             vec2 i = floor(p);
             vec2 f = fract(p);
             f = f * f * (3.0 - 2.0 * f);
 
-            float a = hash(i);
-            float b = hash(i + vec2(1.0, 0.0));
-            float c = hash(i + vec2(0.0, 1.0));
-            float d = hash(i + vec2(1.0, 1.0));
+            float a = hash(i.x + i.y * 57.0);
+            float b = hash(i.x + 1.0 + i.y * 57.0);
+            float c = hash(i.x + (i.y + 1.0) * 57.0);
+            float d = hash(i.x + 1.0 + (i.y + 1.0) * 57.0);
 
             return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
           }
 
-          // FBM for detailed variation
           float fbm(vec2 p) {
-            float value = 0.0;
-            float amplitude = 0.5;
-            for(int i = 0; i < 5; i++) {
-              value += amplitude * noise(p);
+            float v = 0.0;
+            float a = 0.5;
+            for (int i = 0; i < 4; i++) {
+              v += a * noise(p);
               p *= 2.0;
-              amplitude *= 0.5;
+              a *= 0.5;
             }
-            return value;
+            return v;
           }
 
-          // Multi-layer texture sampling
-          float layeredNoise(vec2 uv) {
-            float n1 = texture2D(uNoise, uv).r;
-            float n2 = texture2D(uNoise, uv * 1.3 + vec2(0.5, 0.3)).r;
-            float n3 = texture2D(uNoise, uv * 0.7 + vec2(0.2, 0.7)).r;
-            float n4 = texture2D(uNoise, uv * 0.5 + vec2(0.8, 0.1)).r;
-            
-            return (n1 * 0.4 + n2 * 0.3 + n3 * 0.2 + n4 * 0.1);
+          float turbulence(vec2 p) {
+            float t = 0.0;
+            float a = 1.0;
+            for (int i = 0; i < 3; i++) {
+              t += abs(noise(p) - 0.5) * a;
+              p *= 2.0;
+              a *= 0.5;
+            }
+            return t;
           }
 
           void main() {
-            float flow = fract(vUv.y + uTime * 0.15);
+            vec2 uv = vUv;
+            float aspect = uResolution.x / uResolution.y;
+            uv.x *= aspect;
 
-            vec2 flowUv = vec2(vUv.x * 1.2, flow * 2.0);
-            vec2 flowVector = texture2D(uFlow, flowUv).rg * 2.0 - 1.0;
-            
-            vec2 distortedUv1 = vec2(vUv.x * 1.5, flow * 3.0) + flowVector * 0.3;
-            vec2 distortedUv2 = vec2(vUv.x * 1.2, flow * 2.5 + uTime * 0.5) + flowVector * 0.25;
-            
-            // Texture-based base
-            float streaks = layeredNoise(distortedUv1);
-            float turbulence = layeredNoise(distortedUv2);
+            float t = uTime * 0.5;
 
-            // Layer procedural detail with more presence
-            float proceduralStreaks = fbm(vec2(vUv.x * 15.0, flow * 20.0));
-            float proceduralTurbulence = fbm(vec2(vUv.x * 8.0, flow * 15.0 + uTime * 0.5));
-            
-            // Additional detail layers
-            float fineDetail = fbm(vec2(vUv.x * 25.0, flow * 30.0 - uTime * 0.3));
-            float crossFlow = fbm(vec2(vUv.x * 12.0 + uTime * 0.2, flow * 18.0));
-            
-            // Blend with more procedural influence
-            streaks = mix(streaks, proceduralStreaks, 0.35);
-            streaks = mix(streaks, fineDetail, 0.2);
-            turbulence = mix(turbulence, proceduralTurbulence, 0.3);
-            turbulence = mix(turbulence, crossFlow, 0.15);
+            vec2 flowUV = vec2(uv.x * 4.0, uv.y * 6.0 + t * 2.0);
 
-            // Enhanced ripples with more variation
-            float ripples = sin(vUv.x * 30.0 + uTime * 3.0) * 0.5 + 0.5;
-            ripples += sin(vUv.x * 45.0 - uTime * 2.0) * 0.3;
-            ripples += sin(vUv.x * 60.0 + uTime * 2.5) * 0.2;
-            
-            // Add noise-based ripple variation
-            float rippleNoise = noise(vec2(vUv.x * 40.0, flow * 25.0 + uTime * 1.5));
-            ripples += rippleNoise * 0.25;
+            float turb = turbulence(flowUV + vec2(0.0, t * 0.3));
 
-            // Enhanced foam with more procedural detail
-            vec2 foamUv = vec2(vUv.x * 6.0, uTime * 2.0);
-            float foamNoise = layeredNoise(foamUv);
-            float proceduralFoam = noise(vec2(vUv.x * 50.0, uTime * 5.0));
-            float foamDetail = fbm(vec2(vUv.x * 35.0, flow * 40.0 + uTime * 3.0));
-            
-            float foam = smoothstep(0.9, 1.0, flow) * 
-              mix(foamNoise * 0.5 + 0.5, proceduralFoam * 0.5 + 0.5, 0.4);
-            foam += smoothstep(0.85, 0.95, flow) * foamDetail * 0.3;
+            float streaks1 = pow(abs(sin(uv.x * 35.0 + turb * 2.0)), 3.0);
+            float streaks2 = pow(abs(sin(uv.x * 18.0 + turb * 1.5)), 4.0);
+            float verticalStreaks = max(streaks1 * 0.6, streaks2 * 0.4);
 
-            // Color mixing with enhanced depth
-            vec3 deepWater = vec3(0.05, 0.35, 0.55);
-            vec3 midWater  = vec3(0.15, 0.55, 0.65);
-            vec3 lightWater = vec3(0.35, 0.75, 0.85);
-            vec3 foamColor = vec3(0.9, 0.95, 1.0);
+            float water = fbm(flowUV + vec2(turb * 0.2, 0.0));
 
-            vec3 color = mix(deepWater, midWater, flow);
-            color = mix(color, lightWater, streaks * 0.6);
+            float foamNoise = fbm(vec2(uv.x * 12.0, uv.y * 8.0 + t * 3.0));
+            float foamMask = smoothstep(0.3, 0.8, vUv.y);
+            float foam = pow(foamNoise, 2.0) * foamMask;
+            foam += verticalStreaks * smoothstep(0.4, 0.7, foamNoise) * 0.6;
 
-            // Enhanced shimmer with more complexity
-            float shimmer = pow(streaks * ripples, 2.0) * 0.4;
-            shimmer += pow(fineDetail * 0.8, 3.0) * 0.3;
-            color += vec3(shimmer);
+            float depth = fbm(vec2(uv.x * 2.0, uv.y * 3.0 + t * 0.5));
+            water = mix(water, depth, 0.3);
 
-            color = mix(color, foamColor, foam * 0.8);
-            
-            // More dynamic turbulence
-            color *= 0.7 + turbulence * 0.3;
-            
-            // Add subtle color variation for depth
-            float depthVariation = fbm(vec2(vUv.x * 7.0, flow * 12.0));
-            color = mix(color, deepWater, depthVariation * 0.1);
+            // 🌊 TEAL-SHIFTED COLORS (ONLY CHANGE)
+            vec3 deep = vec3(0.02, 0.14, 0.16);   // deep teal
+            vec3 mid  = vec3(0.06, 0.38, 0.42);   // rich turquoise
+            vec3 light = vec3(0.18, 0.68, 0.70);  // aqua highlights
+            vec3 foamColor = vec3(0.88, 0.97, 0.97); // soft teal foam
 
-            float alpha = 0.95 + foam * 0.05;
+            vec3 color = mix(deep, mid, water);
+            color = mix(color, light, pow(water, 2.0) * 0.6);
+            color = mix(color, light * 1.2, verticalStreaks * 0.3);
+            color = mix(color, foamColor, foam * 0.7);
 
-            gl_FragColor = vec4(color, alpha);
+            float mist =
+              smoothstep(0.25, 0.0, vUv.y) *
+              fbm(uv * 1.8 + vec2(0.0, t * 0.3));
+
+            color = mix(color, vec3(0.6, 0.85, 0.85), mist * 0.5);
+
+            color *= smoothstep(
+              1.0,
+              0.7,
+              abs(uv.x - aspect * 0.5) * 2.0 / aspect
+            );
+
+            color *= 1.0 - smoothstep(0.85, 1.0, vUv.y);
+
+            gl_FragColor = vec4(color, 1.0);
           }
         `}
       />
     </mesh>
-  );
+  )
 }
 
 export default function WaterfallBackground() {
   return (
     <Canvas
-      camera={{ position: [0, 0, 2] }}
+      camera={{ position: [0, 0, 5], fov: 50 }}
       style={{
         position: "fixed",
         inset: 0,
         zIndex: -10,
+        pointerEvents: "none",
       }}
-      dpr={[1, 1.5]}
     >
       <WaterfallPlane />
     </Canvas>
-  );
+  )
 }
+export { WaterfallBackground };
