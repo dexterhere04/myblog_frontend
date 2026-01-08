@@ -69,24 +69,24 @@ function BlogsSection() {
   ];
 
   return (
-    <section className="pt-10 pb-20 bg-[#d3c0a5]">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="pt-8 sm:pt-10 pb-16 sm:pb-20 bg-[#d3c0a5]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="text-center mb-20">
-          <span className="text-sm font-semibold tracking-widest uppercase text-gray-600">
+        <div className="text-center mb-12 sm:mb-16 md:mb-20">
+          <span className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-gray-600">
             From the Code
           </span>
-          <h2 className="text-5xl font-bold mt-3 mb-5 text-gray-900">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-2 sm:mt-3 mb-3 sm:mb-5 text-gray-900">
             Latest Insights
           </h2>
-          <p className="text-gray-700 text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-gray-700 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed px-2">
             Thoughtful writing on design, development, and modern technology —
             curated for clarity and depth.
           </p>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
           {blogs.map((blog) => (
             <article
               key={blog.id}
@@ -128,37 +128,38 @@ function BlogsSection() {
               {/* Window Frame - Bottom */}
               <div className="bg-[#6b5742] h-3 border-t-2 border-[#4a3c2e]"></div>
 
-              {/* Shop Content Area */}
-              <div className="p-6 bg-[#f5ede3]">
-                <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
-                  <span className="flex items-center gap-1">
-                    <Calendar size={14} />
-                    {blog.date}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Clock size={14} />
-                    {blog.readTime}
-                  </span>
-                </div>
+{/* Shop Content Area */}
+               <div className="p-4 sm:p-6 bg-[#f5ede3]">
+                 <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3">
+                   <span className="flex items-center gap-1">
+                     <Calendar size={14} className="w-3 h-3 sm:w-4 sm:h-4" />
+                     <span className="hidden sm:inline">{blog.date}</span>
+                     <span className="sm:hidden">{blog.date.split(',')[0]}</span>
+                   </span>
+                   <span className="flex items-center gap-1">
+                     <Clock size={14} className="w-3 h-3 sm:w-4 sm:h-4" />
+                     {blog.readTime}
+                   </span>
+                 </div>
 
-                <h3 className="text-xl font-semibold mb-2 text-gray-900 group-hover:text-gray-700 transition-colors">
-                  {blog.title}
-                </h3>
+                 <h3 className="text-lg sm:text-xl font-semibold mb-2 text-gray-900 group-hover:text-gray-700 transition-colors">
+                   {blog.title}
+                 </h3>
 
-                <p className="text-gray-600 mb-5 leading-relaxed line-clamp-2">
-                  {blog.description}
-                </p>
+                 <p className="text-gray-600 mb-3 sm:mb-5 leading-relaxed line-clamp-2 text-sm sm:text-base">
+                   {blog.description}
+                 </p>
 
-                <div className="flex items-center text-gray-900 font-medium">
-                  <span className="text-sm">Read article</span>
-                  <ArrowRight
-                    size={16}
-                    className={`ml-2 transition-transform duration-300 ${
-                      hoveredCard === blog.id ? "translate-x-1" : ""
-                    }`}
-                  />
-                </div>
-              </div>
+                 <div className="flex items-center text-gray-900 font-medium">
+                   <span className="text-xs sm:text-sm">Read article</span>
+                   <ArrowRight
+                     size={16}
+                     className={`ml-2 w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 ${
+                       hoveredCard === blog.id ? "translate-x-1" : ""
+                     }`}
+                   />
+                 </div>
+               </div>
 
               {/* Beach Shop Bottom - Wooden planks */}
               <div className="bg-[#8b7355] border-t-4 border-[#6b5742]">
@@ -175,8 +176,8 @@ function BlogsSection() {
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-16">
-          <button className="px-10 py-4 bg-[#6b5742] text-white rounded-full font-semibold transition-all duration-300 hover:bg-[#5a4936] shadow-lg">
+        <div className="text-center mt-12 sm:mt-16">
+          <button className="px-6 sm:px-8 md:px-10 py-3 sm:py-4 bg-[#6b5742] text-white rounded-full font-semibold transition-all duration-300 hover:bg-[#5a4936] shadow-lg text-sm sm:text-base">
             View All Posts
           </button>
         </div>

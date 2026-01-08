@@ -9,7 +9,7 @@ function Navbar() {
 
   return (
     <nav 
-      className="navbar fixed top-0 left-0 right-0 z-50 px-6 py-4 text-white transition-all duration-300"
+      className="navbar fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-3 sm:py-4 text-white transition-all duration-300"
       style={{
         background: 'rgba(255, 255, 255, 0.08)',
         boxShadow: '0 4px 24px rgba(0, 0, 0, 0.1)',
@@ -21,7 +21,7 @@ function Navbar() {
       <div className="max-w-7xl mx-auto flex items-center relative">
         {/* Logo */}
         <div className="flex items-center cursor-pointer group">
-          <span className="font-bold text-xl tracking-wide"
+          <span className="font-bold text-lg sm:text-xl tracking-wide"
             style={{
               background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
               WebkitBackgroundClip: 'text',
@@ -30,7 +30,7 @@ function Navbar() {
             }}>
             THARUN
           </span>
-          <span className="font-light text-xl ml-1 tracking-wide">BLOGS</span>
+          <span className="font-light text-lg sm:text-xl ml-1 tracking-wide">BLOGS</span>
         </div>
 
         {/* Desktop Navigation */}
@@ -65,7 +65,7 @@ function Navbar() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden focus:outline-none"
+          className="md:hidden focus:outline-none ml-auto"
         >
           <div className="w-6 h-5 flex flex-col justify-between">
             <span
@@ -90,7 +90,7 @@ function Navbar() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div
-          className="md:hidden mt-4 rounded-xl p-4 space-y-1"
+          className="md:hidden mt-3 sm:mt-4 rounded-xl p-3 sm:p-4 space-y-1"
           style={{
             background: 'rgba(255, 255, 255, 0.1)',
             backdropFilter: 'blur(16px)',
@@ -106,7 +106,7 @@ function Navbar() {
                 setActiveLink(link)
                 setMobileMenuOpen(false)
               }}
-              className={`w-full text-left px-4 py-3 rounded-lg font-medium text-sm tracking-wide transition-all duration-200 ${
+              className={`w-full text-left px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-medium text-sm tracking-wide transition-all duration-200 ${
                 activeLink === link ? 'bg-white bg-opacity-20' : 'hover:bg-white hover:bg-opacity-10'
               }`}
             >
@@ -114,7 +114,7 @@ function Navbar() {
             </button>
           ))}
           <button
-            className="w-full px-4 py-3 rounded-lg font-semibold text-sm tracking-wide transition-all duration-200 mt-2"
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-semibold text-sm tracking-wide transition-all duration-200 mt-2"
             style={{
               background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)',
               color: '#1a1a1a',

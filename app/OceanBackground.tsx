@@ -132,11 +132,11 @@ function WaterfallPlane() {
             float depth = fbm(vec2(uv.x * 2.0, uv.y * 3.0 + t * 0.5));
             water = mix(water, depth, 0.3);
 
-            // 🌊 TEAL-SHIFTED COLORS (ONLY CHANGE)
-            vec3 deep = vec3(0.02, 0.14, 0.16);   // deep teal
-            vec3 mid  = vec3(0.06, 0.38, 0.42);   // rich turquoise
-            vec3 light = vec3(0.18, 0.68, 0.70);  // aqua highlights
-            vec3 foamColor = vec3(0.88, 0.97, 0.97); // soft teal foam
+            // 🌊 BLUE COLORS
+            vec3 deep = vec3(0.02, 0.08, 0.18);
+            vec3 mid = vec3(0.08, 0.25, 0.45);
+            vec3 light = vec3(0.15, 0.55, 0.75);
+            vec3 foamColor = vec3(0.85, 0.95, 1.0);
 
             vec3 color = mix(deep, mid, water);
             color = mix(color, light, pow(water, 2.0) * 0.6);
@@ -147,7 +147,7 @@ function WaterfallPlane() {
               smoothstep(0.25, 0.0, vUv.y) *
               fbm(uv * 1.8 + vec2(0.0, t * 0.3));
 
-            color = mix(color, vec3(0.6, 0.85, 0.85), mist * 0.5);
+            color = mix(color, vec3(0.6, 0.8, 0.95), mist * 0.5);
 
             color *= smoothstep(
               1.0,
@@ -180,4 +180,4 @@ export default function WaterfallBackground() {
     </Canvas>
   )
 }
-export { WaterfallBackground };
+export { WaterfallBackground }
