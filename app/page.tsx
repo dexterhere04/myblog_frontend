@@ -7,9 +7,9 @@ import AboutSection from "./AboutSection";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen">
     <HeroSection />
-    <div className="-mt-36 md:-mt-38 lg:-mt-30">
+    <div className="-mt-24 sm:-mt-28 md:-mt-32 lg:-mt-36">
 
       <MountainDivider />
     </div>

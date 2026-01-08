@@ -167,17 +167,26 @@ function WaterfallPlane() {
 
 export default function WaterfallBackground() {
   return (
-    <Canvas
-      camera={{ position: [0, 0, 5], fov: 50 }}
+    <div
       style={{
         position: "fixed",
         inset: 0,
         zIndex: -10,
         pointerEvents: "none",
+        width: "100vw",
+        height: "100vh",
       }}
     >
-      <WaterfallPlane />
-    </Canvas>
+      <Canvas
+        camera={{ position: [0, 0, 5], fov: 50 }}
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <WaterfallPlane />
+      </Canvas>
+    </div>
   )
 }
 export { WaterfallBackground }
