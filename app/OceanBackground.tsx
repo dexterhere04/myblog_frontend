@@ -132,7 +132,6 @@ function WaterfallPlane() {
             float depth = fbm(vec2(uv.x * 2.0, uv.y * 3.0 + t * 0.5));
             water = mix(water, depth, 0.3);
 
-            // 🌊 BLUE COLORS
             vec3 deep = vec3(0.02, 0.08, 0.18);
             vec3 mid = vec3(0.08, 0.25, 0.45);
             vec3 light = vec3(0.15, 0.55, 0.75);
@@ -175,9 +174,8 @@ export default function WaterfallBackground() {
         right: 0,
         bottom: 0,
         width: "100vw",
-        height: "100vh",
-        minHeight: "100vh",
-        maxHeight: "100vh",
+        height: "100dvh",
+        minHeight: "100dvh",
         zIndex: -10,
         pointerEvents: "none",
         WebkitOverflowScrolling: "touch",
@@ -196,4 +194,5 @@ export default function WaterfallBackground() {
     </div>
   )
 }
+
 export { WaterfallBackground }

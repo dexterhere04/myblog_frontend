@@ -27,12 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden min-h-dvh`}
       >
-        {/* Background FIRST */}
         <WaterfallBackground />
-
-        {/* Foreground content */}
         <Navbar />
         {children}
       </body>
