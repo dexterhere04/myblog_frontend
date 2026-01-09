@@ -18,7 +18,7 @@ function WaterfallPlane() {
   })
 
   return (
-    <mesh scale={[20, 15, 1]} position={[0, 0, 0]}>
+    <mesh scale={[40, 25, 1]} position={[0, 0, -2]}>
       <planeGeometry args={[1, 1, 128, 128]} />
       <shaderMaterial
         ref={materialRef}
@@ -170,9 +170,18 @@ export default function WaterfallBackground() {
     <div
       style={{
         position: "fixed",
-        inset: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: "100vw",
+        height: "100vh",
+        minHeight: "100vh",
+        maxHeight: "100vh",
         zIndex: -10,
         pointerEvents: "none",
+        WebkitOverflowScrolling: "touch",
+        overflow: "hidden",
       }}
     >
       <Canvas
