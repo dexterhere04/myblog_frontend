@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { Github, Linkedin, MessageCircle, Send } from "lucide-react";
+//TODO: make the text black for input fields and textarea
+
 
 function ContactSection() {
   const [formData, setFormData] = useState({

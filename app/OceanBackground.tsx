@@ -173,8 +173,6 @@ export default function WaterfallBackground() {
         inset: 0,
         zIndex: -10,
         pointerEvents: "none",
-        width: "100vw",
-        height: "100vh",
       }}
     >
       <Canvas
