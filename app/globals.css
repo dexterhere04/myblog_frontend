@@ -3,7 +3,6 @@
 /* ------------------------------
    Design Tokens (Theme System)
 -------------------------------- */
-
 :root {
   --background: linear-gradient(135deg, #47ddcb 0%, #38b8a8 100%);
   --foreground: #171717;
@@ -55,7 +54,7 @@ body {
 }
 
 body {
-  background-color: #ffffff; /* neutral canvas */
+  background-color: #133C63; /* neutral canvas */
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   overscroll-behavior-y: none; /* Prevent bounce scroll on iOS */

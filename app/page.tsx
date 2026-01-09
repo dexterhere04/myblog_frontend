@@ -7,15 +7,17 @@ import AboutSection from "./AboutSection";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen">
-    <HeroSection />
-    <div className="-mt-24 sm:-mt-28 md:-mt-32 lg:-mt-36">
+    <div className="relative min-h-dvh">
+      <HeroSection />
 
-      <MountainDivider />
-    </div>
-    <BlogsSection />
-    <ContactSection />
-    <AboutSection />
+      <div className="-mt-24 sm:-mt-28 md:-mt-32 lg:-mt-36">
+        <MountainDivider />
+      </div>
+
+      <BlogsSection />
+      <ContactSection />
+      <AboutSection />
     </div>
   );
 }
+

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
+//TODO: make the bottom brown section consistent in height across all cards
 
 function BlogsSection() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
