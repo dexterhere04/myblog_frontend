@@ -67,7 +67,7 @@ body {
 
 /* ------------------------------
    Background Layer (Visual)
--------------------------------- */
+------------------------------- */
 
 .app-background {
   position: fixed;
@@ -78,6 +78,13 @@ body {
   width: 100vw;
   height: 100dvh; /* Use dynamic viewport height */
   min-height: 100dvh;
+}
+
+/* Ensure the decorative background's WebGL canvas cannot capture
+   pointer or wheel events and block page scrolling. */
+#waterfall-bg canvas,
+#waterfall-bg * {
+  pointer-events: none !important;
 }
 
 /* ------------------------------

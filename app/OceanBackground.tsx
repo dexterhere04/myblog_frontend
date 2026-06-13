@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef } from "react"
+import React, { useRef, useEffect } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import * as THREE from "three"
 
@@ -165,8 +165,19 @@ function WaterfallPlane() {
 }
 
 export default function WaterfallBackground() {
+  const bgRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    // Background is decorative; don't intercept at global level.
+    // Instead, the canvas element is set to `pointer-events: none`
+    // so it won't capture wheel/touch and block page scrolling.
+    return
+  }, [])
+
   return (
     <div
+      ref={bgRef}
+      id="waterfall-bg"
       style={{
         position: "fixed",
         top: 0,
@@ -178,7 +189,6 @@ export default function WaterfallBackground() {
         minHeight: "100dvh",
         zIndex: -10,
         pointerEvents: "none",
-        WebkitOverflowScrolling: "touch",
         overflow: "hidden",
       }}
     >
@@ -187,6 +197,7 @@ export default function WaterfallBackground() {
         style={{
           width: "100%",
           height: "100%",
+          pointerEvents: "none",
         }}
       >
         <WaterfallPlane />

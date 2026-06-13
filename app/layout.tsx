@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import WaterfallBackground from "./OceanBackground";
+import WheelInspector from "./WheelInspector";
+import EnableWheelScroll from "./EnableWheelScroll";
 import Navbar from "./Navbar";
 
 const geistSans = Geist({
@@ -30,6 +32,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden min-h-dvh`}
       >
         <WaterfallBackground />
+        <WheelInspector />
+        <EnableWheelScroll />
         <Navbar />
         {children}
       </body>
