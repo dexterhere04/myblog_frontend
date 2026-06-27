@@ -7,8 +7,8 @@ import * as THREE from "three"
 // ─── Configuration ───────────────────────────────────────────────
 const WALL_RADIUS = 7
 const WALL_HEIGHT = 14
-const WALL_ARC = Math.PI * 0.5
-const WALL_CURVE_DEPTH = 3.5
+const WALL_ARC = Math.PI * 0.92
+const WALL_CURVE_DEPTH = 4
 const WALL_BASE_Z = 3.5
 const WALL_SEG_W = 48
 const WALL_SEG_H = 40
