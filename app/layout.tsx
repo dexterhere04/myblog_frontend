@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "./Navbar";
 import WaterfallBackground from "./WaterfallBackground";
 import EnableWheelScroll from "./EnableWheelScroll";
-import Navbar from "./Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Tharun Blogs",
-  description: "Ride the wave of knowledge with insightful articles about web development, programming, and cutting-edge technology.",
+  description: "Step into a space where ideas take root and grow — thoughts on web development, programming, and technology.",
 };
 
 export default function RootLayout({
@@ -30,9 +30,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden min-h-dvh`}
       >
+        <Navbar />
         <WaterfallBackground />
         <EnableWheelScroll />
-        <Navbar />
         {children}
       </body>
     </html>
