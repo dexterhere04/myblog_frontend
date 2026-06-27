@@ -24,6 +24,40 @@
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-6px); }
   }
+
+  @keyframes waterfall-flow {
+    from {
+      background-position-y: 0, 0, 0;
+    }
+
+    to {
+      background-position-y: 240px, 240px, 240px;
+    }
+  }
+
+  @keyframes waterfall-fog {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 0.62;
+    }
+
+    50% {
+      transform: translate3d(0, -8px, 0) scale(1.03);
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes waterfall-ripple {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) scaleX(1);
+      opacity: 0.48;
+    }
+
+    50% {
+      transform: translate3d(0, -4px, 0) scaleX(1.02);
+      opacity: 0.72;
+    }
+  }
 }
 
 @layer utilities {
@@ -58,6 +92,26 @@ body {
 
 #waterfall-bg canvas, #waterfall-bg * {
   pointer-events: none !important;
+}
+
+#waterfall-bg {
+  will-change: transform;
+}
+
+#waterfall-bg [style*="waterfall-flow"] {
+  will-change: background-position, transform;
+}
+
+#waterfall-bg [style*="waterfall-fog"],
+#waterfall-bg [style*="waterfall-ripple"] {
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #waterfall-bg * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 @supports (backdrop-filter: blur(1px)) {
