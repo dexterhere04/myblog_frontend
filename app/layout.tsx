@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import WaterfallBackground from "./OceanBackground";
+import WaterfallBackground from "./WaterfallBackground";
 import EnableWheelScroll from "./EnableWheelScroll";
 import Navbar from "./Navbar";
 
