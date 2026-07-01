@@ -21,13 +21,13 @@ function ContactSection() {
   return (
     <section className="relative">
       {/* Forest stream divider */}
-      <div className="relative h-24 overflow-hidden" style={{ background: '#0D1F1A' }}>
+      <div className="relative h-3 sm:h-6 overflow-hidden" style={{ background: '#0D1F1A' }}>
         <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1440 100" preserveAspectRatio="none">
           <path d="M0,40 C240,70 480,20 720,50 C960,80 1200,30 1440,50 L1440,100 L0,100 Z" fill="#1A2E22" />
         </svg>
       </div>
 
-      <div className="py-16 sm:py-20" style={{ background: '#1A2E22' }}>
+      <div className="py-6 sm:py-8" style={{ background: '#1A2E22' }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 sm:mb-12">
             <span className="text-xs sm:text-sm font-semibold tracking-widest uppercase" style={{ color: '#6A8A72' }}>Contact</span>

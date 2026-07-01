@@ -25,7 +25,7 @@ function AboutSection() {
   ]
 
   return (
-    <section className="pt-24 sm:pt-32 md:pt-36 relative overflow-hidden" style={{ background: '#142E22' }}>
+    <section className="pt-3 sm:pt-6 md:pt-8 relative overflow-hidden" style={{ background: '#142E22' }}>
       {/* Root system divider */}
       <div className="absolute top-0 left-0 w-full h-40 sm:h-48 md:h-56 -mt-1 pointer-events-none">
         <svg className="absolute top-32 sm:top-40 md:top-48 w-full h-20 sm:h-24" viewBox="0 0 1440 120" preserveAspectRatio="none">
