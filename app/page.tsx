@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="relative min-h-dvh">
       <HeroSection />
-      <div className="-mt-8 sm:-mt-10 md:-mt-12 lg:-mt-14">
+      <div className="-mt-40 sm:-mt-44 md:-mt-48 lg:-mt-52">
         <ForestRidgeDivider />
       </div>
       <BlogsSection />

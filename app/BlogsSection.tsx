@@ -15,7 +15,7 @@ function BlogsSection() {
   ];
 
   return (
-    <section className="pt-8 sm:pt-10 pb-16 sm:pb-20" style={{ background: '#0D1F1A' }}>
+    <section className="pt-0 pb-16 sm:pb-20" style={{ background: '#0D1F1A' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-12 sm:mb-16 md:mb-20">
           <span className="text-xs sm:text-sm font-semibold tracking-widest uppercase" style={{ color: '#6A8A72' }}>Forest Floor</span>
