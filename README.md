@@ -1,73 +1,47 @@
-# **README.md**
+# Tharun Blogs
 
-**Personal Blog Project**
+A personal blog built with Next.js, featuring a Three.js animated waterfall background. Single-page landing with blog cards, about, and contact sections.
 
-A personal blog project created using Markdown and hosted on [Your Hosting Platform]. This repository contains all the files necessary to run the blog.
+## Getting Started
 
-## **Table of Contents**
+```bash
+npm install
+npm run dev
+```
 
-* Getting Started
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-  * Prerequisites
-  * Installation
-* Usage
+## Commands
 
-  * Running the Blog
-  * Contributing
-* License
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server (Turbopack) |
+| `npm run build` | Production build |
+| `npm run lint` | Run ESLint |
 
-## **Getting Started**
+## Tech Stack
 
-### Prerequisites
+- **Next.js 16** (App Router)
+- **React 19**
+- **Three.js** via `@react-three/fiber` (animated waterfall background)
+- **Tailwind CSS v4**
+- **TypeScript**
 
-* Python 3.8 or higher
-* pip (Python package manager)
-* Markdown parser (e.g., `pandoc`)
+## Project Structure
 
-### Installation
-
-1. Clone this repository using `git clone https://github.com/your-github-username/personal-blog.git`
-2. Navigate to the project directory using `cd personal-blog`
-3. Install dependencies using `pip install -r requirements.txt`
-
-## **Usage**
-
-### Running the Blog
-
-To run the blog, simply execute the following command:
-
-<pre class="relative flex w-full flex-col break-normal !overflow-visible !mb-0 whitespace-normal text-[13px]"><div class="pointer-events-none absolute inset-0 border border-transparent"><div class="sticky top-0 flex h-fit w-full items-center justify-end gap-2 pb-2"><div class="flex w-fit items-center justify-center gap-2 pt-2 relative right-2"></div></div></div><div class="flex w-full items-center justify-between gap-2 border-b bg-surface-2 py-2 pl-4 pr-2 rounded-t-xl border-x border-t"></div><div class="flex w-full flex-col px-4 py-3 rounded-b-xl border-x border-b bg-surface overflow-x-auto"><code class="hljs language-bash whitespace-normal hljs language-bash border text-[13px]" data-closed="" dir="ltr">python app.py
-</code></div></pre>
-
-This will start the blog server on port 8000.
-
-
-## **License**
-
-This project is licensed under the [MIT License]. See the
-
-LICENSE
-
- for more information.
-
-#### MIT License
-
-Copyright (c) 2023 [Your Name]
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+```
+app/
+  layout.tsx          # Root layout
+  page.tsx            # Single-page landing
+  WaterfallBackground.tsx  # Three.js scene
+  EnableWheelScroll.tsx    # Wheel-to-scroll bridge
+  HeroSection.tsx     # Hero area
+  MountainDivider.tsx  # SVG ridge divider
+  BlogsSection.tsx    # Blog card grid
+  ContactSection.tsx  # Contact form
+  AboutSection.tsx    # About area
+  Navbar.tsx          # Fixed nav
+  globals.css         # Tailwind v4 config + global styles
+generate_static/      # Python scripts for texture generation
+public/textures/      # Generated noise/flow textures
+```
