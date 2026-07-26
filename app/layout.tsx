@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./Navbar";
-import WaterfallBackground from "./WaterfallBackground";
 import EnableWheelScroll from "./EnableWheelScroll";
+
+const WaterfallBackground = dynamic(() => import("./WaterfallBackground"));
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

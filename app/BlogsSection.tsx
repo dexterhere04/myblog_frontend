@@ -1,10 +1,7 @@
 "use client";
-import React, { useState } from "react";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 
 function BlogsSection() {
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-
   const blogs = [
     { id: 1, title: "The Art of Minimalist Design", description: "Explore how less can truly be more when it comes to creating impactful digital experiences that resonate with users.", category: "Design", date: "Dec 28, 2024", readTime: "5 min read", image: "linear-gradient(135deg, #2D4A3A 0%, #1E3A2A 100%)" },
     { id: 2, title: "Building Scalable React Applications", description: "Best practices and patterns for building applications that grow gracefully with your user base and feature set.", category: "Development", date: "Dec 25, 2024", readTime: "8 min read", image: "linear-gradient(135deg, #1E3A2A 0%, #142E22 100%)" },
@@ -33,8 +30,6 @@ function BlogsSection() {
                 boxShadow: "0 10px 30px rgba(0, 0, 0, 0.25)",
                 background: '#1A2E22',
               }}
-              onMouseEnter={() => setHoveredCard(blog.id)}
-              onMouseLeave={() => setHoveredCard(null)}
             >
               <div className="h-1" style={{ background: 'linear-gradient(90deg, #C49A4A, #E8C87A)' }}></div>
               <div className="h-48 relative overflow-hidden" style={{ background: blog.image }}>
@@ -65,7 +60,7 @@ function BlogsSection() {
                 <p className="mb-3 sm:mb-5 leading-relaxed line-clamp-2 text-sm sm:text-base" style={{ color: '#5A6A5A' }}>{blog.description}</p>
                 <div className="flex items-center font-medium" style={{ color: '#C49A4A' }}>
                   <span className="text-xs sm:text-sm">Read article</span>
-                  <ArrowRight size={16} className={`ml-2 transition-transform duration-300 ${hoveredCard === blog.id ? "translate-x-1" : ""}`} />
+                  <ArrowRight size={16} className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
                 </div>
               </div>
             </article>
