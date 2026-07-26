@@ -1,9 +1,16 @@
 "use client";
-import React, { useState } from "react";
-import { Github, Linkedin, MessageCircle, Send } from "lucide-react";
+import { useState } from "react";
+import { Github, Linkedin, MessageCircle, Send, Mail, ArrowUpRight, User } from "lucide-react";
+
+const socials = [
+  { Icon: Github, label: "GitHub", href: "https://github.com" },
+  { Icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com" },
+  { Icon: MessageCircle, label: "Message", href: "#" },
+];
 
 function ContactSection() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [focused, setFocused] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,74 +25,174 @@ function ContactSection() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const inputStyle = (name: string) => ({
+    border: focused === name
+      ? "1.5px solid #C49A4A"
+      : "1.5px solid rgba(92, 64, 51, 0.2)",
+    background: "#FDFAF3",
+    color: "#1A1814",
+    outline: "none",
+    boxShadow: focused === name
+      ? "0 0 0 3px rgba(196, 154, 74, 0.12)"
+      : "none",
+  });
+
   return (
     <section className="relative">
-      {/* Forest stream divider */}
-      <div className="relative h-3 sm:h-6 overflow-hidden" style={{ background: '#0D1F1A' }}>
+      {/* Stream divider */}
+      <div className="relative h-4 sm:h-6 overflow-hidden" style={{ background: "var(--mid-forest)" }}>
         <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1440 100" preserveAspectRatio="none">
-          <path d="M0,40 C240,70 480,20 720,50 C960,80 1200,30 1440,50 L1440,100 L0,100 Z" fill="#1A2E22" />
+          <path
+            d="M0,40 C200,75 400,15 600,55 C800,95 1000,25 1200,50 C1300,62 1400,35 1440,30 L1440,100 L0,100 Z"
+            fill="var(--pine)"
+          />
         </svg>
       </div>
 
-      <div className="py-6 sm:py-8" style={{ background: '#1A2E22' }}>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-8 sm:mb-12">
-            <span className="text-xs sm:text-sm font-semibold tracking-widest uppercase" style={{ color: '#6A8A72' }}>Contact</span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-2 sm:mt-3 mb-3 sm:mb-4" style={{ color: '#E8E0D0' }}>Let&apos;s Connect</h2>
-            <p className="text-sm sm:text-base lg:text-lg max-w-2xl mx-auto px-2" style={{ color: '#8AA89A' }}>
+      {/* Main content — warmer section with cedar tones */}
+      <div className="py-16 sm:py-20 relative overflow-hidden" style={{ background: "var(--pine)" }}>
+        {/* Background decorative pattern */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 20% 80%, #D4A84B 1px, transparent 1px),
+              radial-gradient(circle at 80% 20%, #D4A84B 1px, transparent 1px),
+              radial-gradient(circle at 40% 40%, #C49A4A 1px, transparent 1px)
+            `,
+            backgroundSize: "120px 120px, 160px 160px, 100px 100px",
+          }}
+        />
+
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 relative z-10">
+          {/* Header */}
+          <div className="text-center mb-12 sm:mb-16">
+            <div className="flex justify-center items-center gap-3 mb-4">
+              <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, transparent, #D4A84B)" }} />
+              <span
+                className="text-[11px] sm:text-xs tracking-[0.25em] uppercase font-body"
+                style={{ color: "var(--honey)" }}
+              >
+                Reach Out
+              </span>
+              <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, #D4A84B, transparent)" }} />
+            </div>
+
+            <h2
+              className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 mb-4 tracking-tight"
+              style={{ color: "var(--parchment)" }}
+            >
+              Let&apos;s Connect
+            </h2>
+
+            <p
+              className="font-body text-sm sm:text-base max-w-lg mx-auto leading-relaxed px-2"
+              style={{ color: "var(--sage)" }}
+            >
               Questions, collaboration, or just a friendly hello — feel free to reach out.
             </p>
           </div>
 
-          <div className="flex justify-center gap-4 sm:gap-6 mb-10 sm:mb-14">
-            {[Github, Linkedin, MessageCircle].map((Icon, i) => (
-              <div key={i} className="flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-3 rounded-full shadow-md"
+          {/* Social pills */}
+          <div className="flex justify-center gap-3 sm:gap-4 mb-12 sm:mb-16 flex-wrap">
+            {socials.map(({ Icon, label, href }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-2.5 px-5 py-2.5 transition-all duration-300 hover:-translate-y-0.5"
                 style={{
-                  background: 'rgba(232, 224, 208, 0.1)',
-                  border: '1px solid rgba(74, 106, 74, 0.3)',
-                  color: '#C49A4A',
-                }}>
-                <Icon size={16} />
-              </div>
+                  background: "rgba(251, 247, 239, 0.06)",
+                  border: "1.5px solid rgba(196, 154, 74, 0.25)",
+                  borderRadius: "9999px",
+                  color: "#C49A4A",
+                }}
+              >
+                <Icon size={15} className="transition-colors duration-300 group-hover:text-[#D4A84B]" />
+                <span className="font-body text-sm tracking-wide">{label}</span>
+                <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-all duration-300 -ml-1 group-hover:ml-0" />
+              </a>
             ))}
           </div>
 
-          <div className="rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg"
+          {/* Form card */}
+          <div
+            className="p-6 sm:p-8 md:p-10 relative grain-overlay"
             style={{
-              background: '#F0E8D8',
-              border: '1px solid rgba(45, 74, 58, 0.2)',
-            }}>
-            <input name="name" placeholder="Your Name" value={formData.name} onChange={handleChange}
-              className="w-full mb-3 sm:mb-4 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base placeholder-gray-500"
-              style={{
-                border: '1px solid rgba(45, 74, 58, 0.2)',
-                background: '#FAF6EE',
-                color: '#1A2E22',
-              }} />
-            <input name="email" placeholder="Email Address" value={formData.email} onChange={handleChange}
-              className="w-full mb-3 sm:mb-4 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base placeholder-gray-500"
-              style={{
-                border: '1px solid rgba(45, 74, 58, 0.2)',
-                background: '#FAF6EE',
-                color: '#1A2E22',
-              }} />
-            <textarea name="message" rows={4} placeholder="Message" value={formData.message} onChange={handleChange}
-              className="w-full mb-4 sm:mb-6 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base placeholder-gray-500 resize-none"
-              style={{
-                border: '1px solid rgba(45, 74, 58, 0.2)',
-                background: '#FAF6EE',
-                color: '#1A2E22',
-              }} />
-            <div className="text-center">
-              <button onClick={handleSubmit}
-                className="px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 rounded-full font-semibold shadow-md flex items-center gap-2 mx-auto text-sm sm:text-base transition-all duration-300 hover:scale-105"
-                style={{
-                  background: 'linear-gradient(135deg, #C49A4A, #E8C87A)',
-                  color: '#06120E',
-                }}>
-                <Send size={16} /> Send Message
-              </button>
-            </div>
+              background: "linear-gradient(180deg, #F5ECD7 0%, #EDE4D3 100%)",
+              borderRadius: "20px",
+              border: "1.5px solid rgba(92, 64, 51, 0.15)",
+              boxShadow: "0 8px 40px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            {/* Decorative corner accents */}
+            <div className="absolute top-3 left-3 w-6 h-6 border-l-2 border-t-2 rounded-tl-md opacity-30"
+              style={{ borderColor: "#C49A4A" }} />
+            <div className="absolute top-3 right-3 w-6 h-6 border-r-2 border-t-2 rounded-tr-md opacity-30"
+              style={{ borderColor: "#C49A4A" }} />
+            <div className="absolute bottom-3 left-3 w-6 h-6 border-l-2 border-b-2 rounded-bl-md opacity-30"
+              style={{ borderColor: "#C49A4A" }} />
+            <div className="absolute bottom-3 right-3 w-6 h-6 border-r-2 border-b-2 rounded-br-md opacity-30"
+              style={{ borderColor: "#C49A4A" }} />
+
+            <form onSubmit={handleSubmit}>
+              <div className="relative mb-4">
+                <User size={14} className="absolute left-4 top-4 pointer-events-none" style={{ color: "#B87333" }} />
+                <input
+                  name="name"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  onFocus={() => setFocused("name")}
+                  onBlur={() => setFocused(null)}
+                  className="w-full pl-10 pr-4 py-3.5 text-sm sm:text-base font-body transition-all duration-200 placeholder-gray-400"
+                  style={{ ...inputStyle("name"), borderRadius: "12px" }}
+                />
+              </div>
+
+              <div className="relative mb-4">
+                <Mail size={14} className="absolute left-4 top-4 pointer-events-none" style={{ color: "#B87333" }} />
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Email Address"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onFocus={() => setFocused("email")}
+                  onBlur={() => setFocused(null)}
+                  className="w-full pl-10 pr-4 py-3.5 text-sm sm:text-base font-body transition-all duration-200 placeholder-gray-400"
+                  style={{ ...inputStyle("email"), borderRadius: "12px" }}
+                />
+              </div>
+
+              <textarea
+                name="message"
+                rows={4}
+                placeholder="Your Message..."
+                value={formData.message}
+                onChange={handleChange}
+                onFocus={() => setFocused("message")}
+                onBlur={() => setFocused(null)}
+                className="w-full mb-6 px-4 py-3.5 text-sm sm:text-base font-body transition-all duration-200 placeholder-gray-400 resize-none"
+                style={{ ...inputStyle("message"), borderRadius: "12px" }}
+              />
+
+              <div className="text-center">
+                <button
+                  type="submit"
+                  className="group inline-flex items-center gap-2.5 px-8 sm:px-10 py-3.5 font-body font-semibold text-sm sm:text-base transition-all duration-300 hover:-translate-y-0.5"
+                  style={{
+                    background: "linear-gradient(135deg, #C49A4A 0%, #D4A84B 100%)",
+                    color: "#1A1814",
+                    borderRadius: "9999px",
+                    boxShadow: "0 4px 20px rgba(196, 154, 74, 0.2)",
+                  }}
+                >
+                  <Send size={15} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  <span>Send Message</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

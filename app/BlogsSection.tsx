@@ -1,84 +1,230 @@
 "use client";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { Calendar, Clock, ArrowRight, Sparkles, Leaf, Code } from "lucide-react";
 
-function BlogsSection() {
-  const blogs = [
-    { id: 1, title: "The Art of Minimalist Design", description: "Explore how less can truly be more when it comes to creating impactful digital experiences that resonate with users.", category: "Design", date: "Dec 28, 2024", readTime: "5 min read", image: "linear-gradient(135deg, #2D4A3A 0%, #1E3A2A 100%)" },
-    { id: 2, title: "Building Scalable React Applications", description: "Best practices and patterns for building applications that grow gracefully with your user base and feature set.", category: "Development", date: "Dec 25, 2024", readTime: "8 min read", image: "linear-gradient(135deg, #1E3A2A 0%, #142E22 100%)" },
-    { id: 3, title: "The Future of Web Development", description: "Discover emerging trends and technologies shaping the future of how we build for the web.", category: "Technology", date: "Dec 22, 2024", readTime: "6 min read", image: "linear-gradient(135deg, #3A5A4A 0%, #2D4A3A 100%)" },
-    { id: 4, title: "Mastering CSS Grid Layouts", description: "A comprehensive guide to mastering CSS Grid from basic concepts to advanced layout techniques.", category: "CSS", date: "Dec 20, 2024", readTime: "7 min read", image: "linear-gradient(135deg, #2D4A3A 0%, #1E3A2A 100%)" },
-    { id: 5, title: "UI/UX Design Principles", description: "Essential principles every designer should know to create intuitive and delightful user experiences.", category: "Design", date: "Dec 18, 2024", readTime: "5 min read", image: "linear-gradient(135deg, #4A6A4A 0%, #2D4A3A 100%)" },
-    { id: 6, title: "JavaScript Performance Tips", description: "Optimize your JavaScript code for better performance and smoother user experiences.", category: "Development", date: "Dec 15, 2024", readTime: "6 min read", image: "linear-gradient(135deg, #1E3A2A 0%, #142E22 100%)" },
-  ];
+const blogs = [
+  {
+    id: 1,
+    title: "The Art of Minimalist Design",
+    description: "Explore how less can truly be more when it comes to creating impactful digital experiences that resonate with users.",
+    category: "Design",
+    date: "Dec 28, 2024",
+    readTime: "5 min read",
+    gradient: "linear-gradient(135deg, #2A4A3A 0%, #1E3A2A 40%, #3A5A4A 100%)",
+    accent: "#C49A4A",
+    icon: Leaf,
+  },
+  {
+    id: 2,
+    title: "Building Scalable React Applications",
+    description: "Best practices and patterns for building applications that grow gracefully with your user base and feature set.",
+    category: "Development",
+    date: "Dec 25, 2024",
+    readTime: "8 min read",
+    gradient: "linear-gradient(135deg, #1E3A2A 0%, #142E22 60%, #2D4A3A 100%)",
+    accent: "#7C9F6E",
+    icon: Code,
+  },
+  {
+    id: 3,
+    title: "The Future of Web Development",
+    description: "Discover emerging trends and technologies shaping the future of how we build for the web and interact online.",
+    category: "Technology",
+    date: "Dec 22, 2024",
+    readTime: "6 min read",
+    gradient: "linear-gradient(135deg, #3A5540 0%, #2A4A3A 40%, #1E3A2A 100%)",
+    accent: "#D4A84B",
+    icon: Sparkles,
+  },
+  {
+    id: 4,
+    title: "Mastering CSS Grid Layouts",
+    description: "A comprehensive guide to mastering CSS Grid from basic concepts to advanced layout techniques.",
+    category: "CSS",
+    date: "Dec 20, 2024",
+    readTime: "7 min read",
+    gradient: "linear-gradient(135deg, #2D4A3A 0%, #1E3A2A 50%, #3A5A4A 100%)",
+    accent: "#B87333",
+    icon: Leaf,
+  },
+  {
+    id: 5,
+    title: "UI/UX Design Principles",
+    description: "Essential principles every designer should know to create intuitive and delightful user experiences.",
+    category: "Design",
+    date: "Dec 18, 2024",
+    readTime: "5 min read",
+    gradient: "linear-gradient(135deg, #4A6A4A 0%, #2D4A3A 40%, #1A2E22 100%)",
+    accent: "#C49A4A",
+    icon: Sparkles,
+  },
+  {
+    id: 6,
+    title: "JavaScript Performance Tips",
+    description: "Optimize your JavaScript code for better performance and smoother user experiences in production.",
+    category: "Development",
+    date: "Dec 15, 2024",
+    readTime: "6 min read",
+    gradient: "linear-gradient(135deg, #1A2E22 0%, #142E22 50%, #2A4A3A 100%)",
+    accent: "#7C9F6E",
+    icon: Code,
+  },
+];
 
+function CardImage({ gradient, Icon, accent }: { gradient: string; Icon: typeof Leaf; accent: string }) {
   return (
-    <section className="pt-0 pb-16 sm:pb-20" style={{ background: '#0D1F1A' }}>
+    <div className="h-48 sm:h-52 relative overflow-hidden" style={{ background: gradient }}>
+      <div className="absolute inset-0 bg-black/10" />
+      <div className="absolute inset-0 flex items-center justify-center opacity-[0.07]">
+        <Icon size={120} strokeWidth={1} style={{ color: "#FBF7EF" }} />
+      </div>
+      <div className="absolute top-0 left-0 w-full h-px opacity-30"
+        style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }} />
+      <div className="absolute bottom-0 left-0 right-0 h-16"
+        style={{ background: "linear-gradient(to top, rgba(10,26,20,0.4), transparent)" }} />
+    </div>
+  )
+}
+
+function BlogCard({ blog, index }: { blog: typeof blogs[0]; index: number }) {
+  return (
+    <article
+      className="group cursor-pointer"
+      style={{
+        animation: `fade-up 0.6s ease-out both`,
+        animationDelay: `${0.1 + index * 0.07}s`,
+      }}
+    >
+      <div
+        className="overflow-hidden transition-all duration-400 hover:-translate-y-1"
+        style={{
+          borderRadius: "16px",
+          background: "var(--pine)",
+          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
+        }}
+      >
+        {/* Accent line */}
+        <div className="h-[3px]" style={{
+          background: `linear-gradient(90deg, ${blog.accent}, ${blog.accent}88, transparent)`,
+        }} />
+
+        {/* Image area */}
+        <CardImage gradient={blog.gradient} Icon={blog.icon} accent={blog.accent} />
+
+        {/* Content */}
+        <div className="px-5 sm:px-6 pt-5 pb-6 sm:pb-7" style={{
+          background: "linear-gradient(180deg, #F5ECD7 0%, #F0E8D8 100%)",
+        }}>
+          {/* Category pill */}
+          <span
+            className="inline-block px-3 py-1 rounded-full text-[11px] sm:text-xs tracking-wider uppercase font-body mb-3"
+            style={{
+              background: `${blog.accent}18`,
+              color: blog.accent,
+              border: `1px solid ${blog.accent}30`,
+            }}
+          >
+            {blog.category}
+          </span>
+
+          {/* Title */}
+          <h3
+            className="font-display text-lg sm:text-xl font-semibold mb-2.5 leading-snug tracking-tight group-hover:opacity-80 transition-opacity duration-300"
+            style={{ color: "var(--pine)" }}
+          >
+            {blog.title}
+          </h3>
+
+          {/* Description */}
+          <p
+            className="mb-4 sm:mb-5 leading-relaxed line-clamp-2 text-sm sm:text-base font-body"
+            style={{ color: "#5A6A5A" }}
+          >
+            {blog.description}
+          </p>
+
+          {/* Metadata row */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3 text-xs sm:text-sm font-body"
+              style={{ color: "#8B8B7A" }}>
+              <span className="flex items-center gap-1.5">
+                <Calendar size={13} />
+                <span className="hidden sm:inline">{blog.date}</span>
+                <span className="sm:hidden">{blog.date.split(",")[0]}</span>
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Clock size={13} />
+                {blog.readTime}
+              </span>
+            </div>
+
+            <div className="flex items-center font-body font-medium text-sm transition-colors duration-300"
+              style={{ color: blog.accent }}>
+              <span className="mr-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:mr-2">
+                Read
+              </span>
+              <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  )
+}
+
+export default function BlogsSection() {
+  return (
+    <section className="pt-2 pb-20 sm:pb-24" style={{ background: "var(--mid-forest)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-12 sm:mb-16 md:mb-20">
-          <span className="text-xs sm:text-sm font-semibold tracking-widest uppercase" style={{ color: '#6A8A72' }}>Forest Floor</span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-2 sm:mt-3 mb-3 sm:mb-5" style={{ color: '#E8E0D0' }}>Latest Insights</h2>
-          <p className="text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed px-2" style={{ color: '#8AA89A' }}>
+        {/* Section header */}
+        <div className="text-center mb-14 sm:mb-20 animate-fade-up">
+          <div className="flex justify-center items-center gap-3 mb-4">
+            <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, transparent, #7C9F6E)" }} />
+            <span
+              className="text-[11px] sm:text-xs tracking-[0.25em] uppercase font-body"
+              style={{ color: "var(--moss-light)" }}
+            >
+              Forest Floor
+            </span>
+            <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, #7C9F6E, transparent)" }} />
+          </div>
+
+          <h2
+            className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 mb-4 tracking-tight"
+            style={{ color: "var(--parchment)" }}
+          >
+            Latest Insights
+          </h2>
+
+          <p
+            className="font-body text-sm sm:text-base max-w-xl mx-auto leading-relaxed px-2"
+            style={{ color: "var(--sage)" }}
+          >
             Thoughtful writing on design, development, and modern technology — curated for clarity and depth.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
-          {blogs.map((blog) => (
-            <article key={blog.id}
-              className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer rounded-2xl"
-              style={{
-                boxShadow: "0 10px 30px rgba(0, 0, 0, 0.25)",
-                background: '#1A2E22',
-              }}
-            >
-              <div className="h-1" style={{ background: 'linear-gradient(90deg, #C49A4A, #E8C87A)' }}></div>
-              <div className="h-48 relative overflow-hidden" style={{ background: blog.image }}>
-                <div className="absolute inset-0 bg-black/10" />
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-                  <div className="w-full h-full" style={{
-                    background: `
-                      radial-gradient(ellipse 120px 80px at 20% 30%, transparent 0%, transparent 100%),
-                      radial-gradient(ellipse 100px 60px at 70% 40%, transparent 0%, transparent 100%),
-                      radial-gradient(ellipse 90px 70px at 50% 50%, transparent 0%, transparent 100%)
-                    `,
-                  }} />
-                </div>
-              </div>
-              <div className="px-5 sm:px-6 pt-4 sm:pt-5 pb-5 sm:pb-6" style={{ background: '#F0E8D8' }}>
-                <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm mb-2 sm:mb-3" style={{ color: '#6A7A6A' }}>
-                  <span className="flex items-center gap-1">
-                    <Calendar size={14} />
-                    <span className="hidden sm:inline">{blog.date}</span>
-                    <span className="sm:hidden">{blog.date.split(',')[0]}</span>
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Clock size={14} />
-                    {blog.readTime}
-                  </span>
-                </div>
-                <h3 className="text-lg sm:text-xl font-semibold mb-2 transition-colors" style={{ color: '#1A2E22' }}>{blog.title}</h3>
-                <p className="mb-3 sm:mb-5 leading-relaxed line-clamp-2 text-sm sm:text-base" style={{ color: '#5A6A5A' }}>{blog.description}</p>
-                <div className="flex items-center font-medium" style={{ color: '#C49A4A' }}>
-                  <span className="text-xs sm:text-sm">Read article</span>
-                  <ArrowRight size={16} className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
-                </div>
-              </div>
-            </article>
+        {/* Cards grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {blogs.map((blog, i) => (
+            <BlogCard key={blog.id} blog={blog} index={i} />
           ))}
         </div>
 
-        <div className="text-center mt-12 sm:mt-16">
-          <button className="px-6 sm:px-8 md:px-10 py-3 sm:py-4 rounded-full font-semibold transition-all duration-300 shadow-lg text-sm sm:text-base"
+        {/* Bottom CTA */}
+        <div className="text-center mt-14 sm:mt-18 animate-fade-up stagger-5">
+          <button
+            className="font-body font-semibold px-8 sm:px-10 py-3.5 sm:py-4 transition-all duration-300 hover:-translate-y-0.5 text-sm sm:text-base"
             style={{
-              background: 'linear-gradient(135deg, #C49A4A, #E8C87A)',
-              color: '#06120E',
-            }}>
-            View All Posts
+              background: "linear-gradient(135deg, #C49A4A 0%, #D4A84B 100%)",
+              color: "#1A1814",
+              borderRadius: "9999px",
+              boxShadow: "0 4px 20px rgba(196, 154, 74, 0.2)",
+            }}
+          >
+            View All Posts &rarr;
           </button>
         </div>
       </div>
     </section>
   );
 }
-
-export default BlogsSection;
