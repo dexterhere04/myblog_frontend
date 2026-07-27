@@ -23,7 +23,7 @@ const lora = Lora({
 
 export const metadata: Metadata = {
   title: "Tharun Blogs",
-  description: "Step into a space where ideas take root and grow — thoughts on web development, programming, and technology.",
+  description: "Practical writing on web development, programming, and modern technology.",
 };
 
 export default function RootLayout({

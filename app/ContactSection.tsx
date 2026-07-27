@@ -5,7 +5,7 @@ import { Github, Linkedin, MessageCircle, Send, Mail, ArrowUpRight, User } from 
 const socials = [
   { Icon: Github, label: "GitHub", href: "https://github.com" },
   { Icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com" },
-  { Icon: MessageCircle, label: "Message", href: "#" },
+  { Icon: MessageCircle, label: "Email", href: "mailto:sdrtharun@gmail.com" },
 ];
 
 function ContactSection() {
@@ -14,7 +14,7 @@ function ContactSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent("Message from Portfolio");
+    const subject = encodeURIComponent("Website Inquiry");
     const body = encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
     );
@@ -38,8 +38,8 @@ function ContactSection() {
   });
 
   return (
-    <section className="relative" style={{ background: "var(--pine)" }}>
-      {/* Main content — warmer section with cedar tones */}
+    <section id="contact" className="relative scroll-mt-24" style={{ background: "var(--pine)" }}>
+      {/* Main content with cedar tones */}
       <div className="py-12 sm:py-20 relative overflow-hidden">
         {/* Background decorative pattern */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
@@ -62,7 +62,7 @@ function ContactSection() {
                 className="text-[11px] sm:text-xs tracking-[0.25em] uppercase font-body"
                 style={{ color: "var(--honey)" }}
               >
-                Reach Out
+                Contact
               </span>
               <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, #DEAE4A, transparent)" }} />
             </div>
@@ -71,14 +71,14 @@ function ContactSection() {
               className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mt-3 mb-4 tracking-tight"
               style={{ color: "var(--parchment)" }}
             >
-              Let&apos;s Connect
+              Get in Touch
             </h2>
 
             <p
               className="font-body text-sm sm:text-base max-w-lg mx-auto leading-relaxed px-2"
               style={{ color: "var(--sage)" }}
             >
-              Questions, collaboration, or just a friendly hello — feel free to reach out.
+              For project inquiries, collaboration, or general questions, please reach out by email.
             </p>
           </div>
 
@@ -179,7 +179,7 @@ function ContactSection() {
                   }}
                 >
                   <Send size={15} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  <span>Send Message</span>
+                  <span>Send Inquiry</span>
                 </button>
               </div>
             </form>

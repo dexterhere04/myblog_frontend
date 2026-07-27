@@ -2,7 +2,7 @@
 
 function HeroSection() {
   return (
-    <section className="flex flex-col items-center justify-center text-center pt-20 sm:pt-24 pb-20 sm:pb-36 relative z-10 min-h-screen">
+    <section id="home" className="flex flex-col items-center justify-center text-center pt-20 sm:pt-24 pb-20 sm:pb-36 relative z-10 min-h-screen scroll-mt-24">
       <div className="relative z-20 max-w-4xl px-4 sm:px-6 w-full">
 
         {/* Decorative label */}
@@ -16,13 +16,13 @@ function HeroSection() {
               letterSpacing: "0.25em",
             }}
           >
-            A Clearing in the Forest
+            Selected Writing
           </span>
         </div>
 
         {/* Headline */}
         <h1
-          className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-12 leading-[1.1] tracking-tight animate-fade-up stagger-1"
+          className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-12 leading-[1.1] tracking-tight animate-fade-up stagger-1"
           style={{ color: "#F7EFDE" }}
         >
           Welcome to{" "}
@@ -44,14 +44,14 @@ function HeroSection() {
           className="font-body text-sm sm:text-lg md:text-xl max-w-xl mx-auto mb-8 sm:mb-14 leading-relaxed px-1 sm:px-2 animate-fade-up stagger-2"
           style={{ color: "rgba(251, 247, 239, 0.85)" }}
         >
-          Step into a space where ideas take root and grow — thoughtful words on
-          web development, programming, and the technology shaping tomorrow.
+          Practical writing on web development, programming, and the tools shaping
+          modern products.
         </p>
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center animate-fade-up stagger-3 w-full sm:w-auto">
           <a href="#"
-            className="group relative inline-flex items-center gap-2 font-body font-semibold py-3 sm:py-4 px-6 sm:px-10 transition-all duration-300 hover:-translate-y-0.5 text-sm sm:text-base w-full sm:w-auto justify-center"
+            className="group relative inline-flex items-center gap-2 font-body font-semibold py-3 sm:py-4 px-6 sm:px-10 transition-all duration-300 hover:-translate-y-0.5 text-sm sm:text-base w-auto justify-center"
             style={{
               background: "linear-gradient(135deg, #D4983A 0%, #DEAE4A 100%)",
               color: "#191714",
@@ -59,12 +59,12 @@ function HeroSection() {
               boxShadow: "0 4px 20px rgba(196, 154, 74, 0.25)",
             }}
           >
-            <span>Explore the Grove</span>
+            <span>Browse Articles</span>
             <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
           </a>
 
           <a href="#"
-            className="font-body font-semibold py-3 sm:py-4 px-6 sm:px-10 transition-all duration-300 hover:-translate-y-0.5 text-sm sm:text-base w-full sm:w-auto text-center"
+            className="font-body font-semibold py-3 sm:py-4 px-6 sm:px-10 transition-all duration-300 hover:-translate-y-0.5 text-sm sm:text-base w-auto text-center"
             style={{
               background: "rgba(196, 154, 74, 0.1)",
               backdropFilter: "blur(12px)",
@@ -74,7 +74,7 @@ function HeroSection() {
               color: "#F7EFDE",
             }}
           >
-            Stay in the Canopy
+            About Me
           </a>
         </div>
       </div>
