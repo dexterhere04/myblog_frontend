@@ -173,7 +173,7 @@ function BlogCard({ blog, index }: { blog: typeof blogs[0]; index: number }) {
 
 export default function BlogsSection() {
   return (
-    <section className="pt-8 sm:pt-16 pb-14 sm:pb-24" style={{ background: "var(--mid-forest)" }}>
+    <section id="blogs" className="pt-8 sm:pt-16 pb-14 sm:pb-24 scroll-mt-24" style={{ background: "var(--mid-forest)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Section header */}
         <div className="text-center mb-10 sm:mb-20 animate-fade-up">
@@ -183,7 +183,7 @@ export default function BlogsSection() {
               className="text-[11px] sm:text-xs tracking-[0.25em] uppercase font-body"
               style={{ color: "var(--moss-light)" }}
             >
-              Forest Floor
+              Recent Articles
             </span>
             <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, #79A668, transparent)" }} />
           </div>
@@ -199,7 +199,7 @@ export default function BlogsSection() {
             className="font-body text-sm sm:text-base max-w-xl mx-auto leading-relaxed px-2"
             style={{ color: "var(--sage)" }}
           >
-            Thoughtful writing on design, development, and modern technology — curated for clarity and depth.
+            Clear, practical writing on design, development, and modern technology.
           </p>
         </div>
 
@@ -221,7 +221,7 @@ export default function BlogsSection() {
               boxShadow: "0 4px 20px rgba(196, 154, 74, 0.2)",
             }}
           >
-            View All Posts &rarr;
+            Browse All Posts &rarr;
           </button>
         </div>
       </div>

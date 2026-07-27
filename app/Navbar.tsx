@@ -6,7 +6,12 @@ import { useAudio } from './AudioContext'
 function Navbar() {
   const [activeLink, setActiveLink] = useState('Home')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const navLinks = ['Home', 'Blogs', 'About', 'Contact']
+  const navLinks = [
+    { label: 'Home', href: '#home' },
+    { label: 'Blogs', href: '#blogs' },
+    { label: 'About', href: '#about' },
+    { label: 'Contact', href: '#contact' },
+  ]
   const { isMuted, toggleMute } = useAudio()
   const [intenseBlink, setIntenseBlink] = useState(true)
   const [shouldBlink, setShouldBlink] = useState(true)
@@ -56,19 +61,20 @@ function Navbar() {
         {/* Desktop nav */}
         <ul className="hidden md:flex items-center gap-0.5 ml-auto">
           {navLinks.map((link) => (
-            <li key={link}>
-              <button
-                onClick={() => setActiveLink(link)}
+            <li key={link.label}>
+              <a
+                href={link.href}
+                onClick={() => setActiveLink(link.label)}
                 className="relative px-5 py-2 font-body font-medium text-sm tracking-wide transition-all duration-300"
               >
                 <span
                   className="relative z-10 transition-colors duration-300"
-                  style={{ color: activeLink === link ? '#E8C060' : 'rgba(184, 210, 197, 0.8)' }}
+                  style={{ color: activeLink === link.label ? '#E8C060' : 'rgba(184, 210, 197, 0.8)' }}
                 >
-                  {link}
+                  {link.label}
                 </span>
                 {/* Active indicator */}
-                {activeLink === link && (
+                {activeLink === link.label && (
                   <span
                     className="absolute bottom-0 left-3 right-3 h-[2px] rounded-full"
                     style={{
@@ -77,51 +83,53 @@ function Navbar() {
                   />
                 )}
                 {/* Hover indicator */}
-                {activeLink !== link && (
+                {activeLink !== link.label && (
                   <span
                     className="absolute bottom-0 left-3 right-3 h-[2px] opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-full"
                     style={{ background: '#B8D2C5' }}
                   />
                 )}
-              </button>
+              </a>
             </li>
           ))}
         </ul>
 
-        {/* Mute toggle */}
-        <button
-          onClick={handleMuteClick}
-          className={`ml-2 sm:ml-4 p-2 sm:p-2.5 rounded-lg hover:bg-white/10 transition-colors duration-200 focus:outline-none ${
-            isMuted && intenseBlink ? 'animate-blink-strong' : isMuted && shouldBlink ? 'animate-pulse' : ''
-          }`}
-          aria-label={isMuted ? 'Unmute waterfall sound' : 'Mute waterfall sound'}
-          title={isMuted ? 'Unmute waterfall sound' : 'Mute waterfall sound'}
-          style={{ color: shouldBlink && isMuted ? '#E8C060' : '#B8D2C5' }}
-        >
-          {isMuted ? <VolumeX size={20} className="sm:w-[22px] sm:h-[22px]" /> : <Volume2 size={20} className="sm:w-[22px] sm:h-[22px]" />}
-        </button>
+        <div className="ml-auto flex items-center gap-1 sm:gap-2">
+          {/* Mute toggle */}
+          <button
+            onClick={handleMuteClick}
+            className={`p-2 sm:p-2.5 rounded-lg hover:bg-white/10 transition-colors duration-200 focus:outline-none ${
+              isMuted && intenseBlink ? 'animate-blink-strong' : isMuted && shouldBlink ? 'animate-pulse' : ''
+            }`}
+            aria-label={isMuted ? 'Unmute waterfall sound' : 'Mute waterfall sound'}
+            title={isMuted ? 'Unmute waterfall sound' : 'Mute waterfall sound'}
+            style={{ color: shouldBlink && isMuted ? '#E8C060' : '#B8D2C5' }}
+          >
+            {isMuted ? <VolumeX size={20} className="sm:w-[22px] sm:h-[22px]" /> : <Volume2 size={20} className="sm:w-[22px] sm:h-[22px]" />}
+          </button>
 
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden focus:outline-none"
-          aria-label="Toggle menu"
-        >
-          <div className="w-6 h-5 flex flex-col justify-between">
-            <span
-              className={`w-full h-0.5 transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}
-              style={{ background: '#B8D2C5' }}
-            />
-            <span
-              className={`w-full h-0.5 transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`}
-              style={{ background: '#B8D2C5' }}
-            />
-            <span
-              className={`w-full h-0.5 transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}
-              style={{ background: '#B8D2C5' }}
-            />
-          </div>
-        </button>
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden focus:outline-none"
+            aria-label="Toggle menu"
+          >
+            <div className="w-6 h-5 flex flex-col justify-between">
+              <span
+                className={`w-full h-0.5 transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}
+                style={{ background: '#B8D2C5' }}
+              />
+              <span
+                className={`w-full h-0.5 transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`}
+                style={{ background: '#B8D2C5' }}
+              />
+              <span
+                className={`w-full h-0.5 transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}
+                style={{ background: '#B8D2C5' }}
+              />
+            </div>
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -138,16 +146,17 @@ function Navbar() {
           }}
         >
           {navLinks.map((link) => (
-            <button
-              key={link}
-              onClick={() => { setActiveLink(link); setMobileMenuOpen(false); }}
+            <a
+              key={link.label}
+              href={link.href}
+              onClick={() => { setActiveLink(link.label); setMobileMenuOpen(false); }}
               className={`w-full text-left px-4 py-3 rounded-lg font-body font-medium text-sm tracking-wide transition-all duration-200 ${
-                activeLink === link ? 'bg-white/10' : 'hover:bg-white/5'
+                activeLink === link.label ? 'bg-white/10' : 'hover:bg-white/5'
               }`}
-              style={{ color: activeLink === link ? '#E8C060' : 'rgba(184, 210, 197, 0.8)' }}
+              style={{ color: activeLink === link.label ? '#E8C060' : 'rgba(184, 210, 197, 0.8)' }}
             >
-              {link}
-            </button>
+              {link.label}
+            </a>
           ))}
         </div>
       )}

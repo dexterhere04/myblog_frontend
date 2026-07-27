@@ -4,25 +4,25 @@ const skills = [
   {
     icon: <Sprout size={28} />,
     title: "Development",
-    description: "Nurturing code from seedling ideas into robust applications that flourish in production.",
+    description: "Building reliable applications with clean structure and maintainable code.",
     accent: "#79A668",
   },
   {
     icon: <TreePine size={28} />,
     title: "Design",
-    description: "Growing user experiences that reach toward clarity, with every interaction thoughtfully placed.",
+    description: "Creating interfaces that are clear, usable, and consistent across devices.",
     accent: "#D4983A",
   },
   {
     icon: <Flower2 size={28} />,
     title: "Problem Solving",
-    description: "Finding elegant solutions in the undergrowth of complexity, one clean pattern at a time.",
+    description: "Breaking down complexity and choosing practical solutions that hold up over time.",
     accent: "#DEAE4A",
   },
   {
     icon: <Sun size={28} />,
     title: "Collaboration",
-    description: "Creating the conditions for teams to thrive, where every contribution helps the whole ecosystem grow.",
+    description: "Working with teams in a direct, collaborative way that keeps projects moving.",
     accent: "#C07840",
   },
 ]
@@ -82,7 +82,7 @@ function SpecimenCard({ skill }: { skill: typeof skills[0] }) {
 
 export default function AboutSection() {
   return (
-    <section className="pt-3 sm:pt-6 md:pt-8 relative overflow-hidden" style={{ background: "var(--dark-forest)" }}>
+    <section id="about" className="pt-3 sm:pt-6 md:pt-8 relative overflow-hidden scroll-mt-24" style={{ background: "var(--dark-forest)" }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Header */}
         <div className="text-center mb-10 sm:mb-20">
@@ -113,9 +113,8 @@ export default function AboutSection() {
             className="font-body text-base sm:text-lg max-w-2xl mx-auto leading-relaxed px-2"
             style={{ color: "var(--sage)" }}
           >
-            Building with the patience of a forest — strong foundations, steady growth,
-            and a canopy-wide view of what&apos;s possible. Every project is planted
-            with care and cultivated to thrive.
+            I focus on building straightforward, dependable digital experiences with strong foundations and attention to detail.
+            Every project is approached with a long-term view of maintainability, clarity, and usefulness.
           </p>
         </div>
 
@@ -158,7 +157,7 @@ export default function AboutSection() {
                       className="font-display font-black text-xs sm:text-base md:text-xl tracking-wider"
                       style={{ color: "var(--parchment)" }}
                     >
-                      GROWING STRONG
+                      PROFESSIONAL PROFILE
                     </p>
                   </div>
                 </div>
@@ -191,18 +190,16 @@ export default function AboutSection() {
                 className="font-display text-xl sm:text-3xl font-bold mb-3 sm:mb-4 tracking-tight"
                 style={{ color: "var(--parchment)" }}
               >
-                Growing Strong
+                Professional Focus
               </h3>
 
               <p className="font-body leading-relaxed mb-3 sm:mb-4 text-xs sm:text-base" style={{ color: "var(--mist)" }}>
-                Like an ancient forest that thrives season after season, my work is cultivated with patience and
-                intention. Each line of code is a new ring in the trunk, each design decision a branch reaching
-                toward clarity.
+                I approach each project with a focus on structure, readability, and practical outcomes.
+                The goal is to create work that is easy to maintain, easy to understand, and built to last.
               </p>
 
               <p className="font-body leading-relaxed text-xs sm:text-base" style={{ color: "var(--sage)" }}>
-                When not growing digital landscapes, I&apos;m exploring the forest of technical documentation,
-                planting seeds for new projects, or finding the clearing where everything clicks into place.
+                Outside of development, I spend time reviewing technical documentation, refining ideas, and planning the next iteration of a project.
               </p>
 
               <div className="mt-5 h-1.5 rounded-full"
@@ -231,7 +228,7 @@ export default function AboutSection() {
                   className="font-body text-[10px] sm:text-xs font-bold tracking-widest uppercase"
                   style={{ color: "var(--sage)" }}
                 >
-                  Years Growing
+                  Years Experience
                 </div>
               </div>
 
@@ -254,7 +251,7 @@ export default function AboutSection() {
                   className="font-body text-[10px] sm:text-xs font-bold tracking-widest uppercase"
                   style={{ color: "var(--sage)" }}
                 >
-                  Projects Cultivated
+                  Projects Delivered
                 </div>
               </div>
             </div>
