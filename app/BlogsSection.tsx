@@ -9,8 +9,8 @@ const blogs = [
     category: "Design",
     date: "Dec 28, 2024",
     readTime: "5 min read",
-    gradient: "linear-gradient(135deg, #2A4A3A 0%, #1E3A2A 40%, #3A5A4A 100%)",
-    accent: "#C49A4A",
+    gradient: "linear-gradient(135deg, #2C4E3B 0%, #1A3023 40%, #3C5C4A 100%)",
+    accent: "#D4983A",
     icon: Leaf,
   },
   {
@@ -20,8 +20,8 @@ const blogs = [
     category: "Development",
     date: "Dec 25, 2024",
     readTime: "8 min read",
-    gradient: "linear-gradient(135deg, #1E3A2A 0%, #142E22 60%, #2D4A3A 100%)",
-    accent: "#7C9F6E",
+    gradient: "linear-gradient(135deg, #1A3023 0%, #183025 60%, #2E4C3B 100%)",
+    accent: "#79A668",
     icon: Code,
   },
   {
@@ -31,8 +31,8 @@ const blogs = [
     category: "Technology",
     date: "Dec 22, 2024",
     readTime: "6 min read",
-    gradient: "linear-gradient(135deg, #3A5540 0%, #2A4A3A 40%, #1E3A2A 100%)",
-    accent: "#D4A84B",
+    gradient: "linear-gradient(135deg, #3C5843 0%, #2C4E3B 40%, #1A3023 100%)",
+    accent: "#DEAE4A",
     icon: Sparkles,
   },
   {
@@ -42,8 +42,8 @@ const blogs = [
     category: "CSS",
     date: "Dec 20, 2024",
     readTime: "7 min read",
-    gradient: "linear-gradient(135deg, #2D4A3A 0%, #1E3A2A 50%, #3A5A4A 100%)",
-    accent: "#B87333",
+    gradient: "linear-gradient(135deg, #2E4C3B 0%, #1A3023 50%, #3C5C4A 100%)",
+    accent: "#C07840",
     icon: Leaf,
   },
   {
@@ -53,8 +53,8 @@ const blogs = [
     category: "Design",
     date: "Dec 18, 2024",
     readTime: "5 min read",
-    gradient: "linear-gradient(135deg, #4A6A4A 0%, #2D4A3A 40%, #1A2E22 100%)",
-    accent: "#C49A4A",
+    gradient: "linear-gradient(135deg, #4E6E4B 0%, #2E4C3B 40%, #1A3023 100%)",
+    accent: "#D4983A",
     icon: Sparkles,
   },
   {
@@ -64,18 +64,18 @@ const blogs = [
     category: "Development",
     date: "Dec 15, 2024",
     readTime: "6 min read",
-    gradient: "linear-gradient(135deg, #1A2E22 0%, #142E22 50%, #2A4A3A 100%)",
-    accent: "#7C9F6E",
+    gradient: "linear-gradient(135deg, #1A3023 0%, #183025 50%, #2C4E3B 100%)",
+    accent: "#79A668",
     icon: Code,
   },
 ];
 
 function CardImage({ gradient, Icon, accent }: { gradient: string; Icon: typeof Leaf; accent: string }) {
   return (
-    <div className="h-48 sm:h-52 relative overflow-hidden" style={{ background: gradient }}>
+    <div className="h-40 sm:h-52 relative overflow-hidden" style={{ background: gradient }}>
       <div className="absolute inset-0 bg-black/10" />
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.07]">
-        <Icon size={120} strokeWidth={1} style={{ color: "#FBF7EF" }} />
+        <Icon size={120} strokeWidth={1} style={{ color: "#F7EFDE" }} />
       </div>
       <div className="absolute top-0 left-0 w-full h-px opacity-30"
         style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }} />
@@ -111,8 +111,8 @@ function BlogCard({ blog, index }: { blog: typeof blogs[0]; index: number }) {
         <CardImage gradient={blog.gradient} Icon={blog.icon} accent={blog.accent} />
 
         {/* Content */}
-        <div className="px-5 sm:px-6 pt-5 pb-6 sm:pb-7" style={{
-          background: "linear-gradient(180deg, #F5ECD7 0%, #F0E8D8 100%)",
+        <div className="px-4 sm:px-6 pt-4 sm:pt-5 pb-5 sm:pb-7" style={{
+          background: "linear-gradient(180deg, #F1E5CD 0%, #EDE2CE 100%)",
         }}>
           {/* Category pill */}
           <span
@@ -137,7 +137,7 @@ function BlogCard({ blog, index }: { blog: typeof blogs[0]; index: number }) {
           {/* Description */}
           <p
             className="mb-4 sm:mb-5 leading-relaxed line-clamp-2 text-sm sm:text-base font-body"
-            style={{ color: "#5A6A5A" }}
+            style={{ color: "#5E6E5E" }}
           >
             {blog.description}
           </p>
@@ -145,7 +145,7 @@ function BlogCard({ blog, index }: { blog: typeof blogs[0]; index: number }) {
           {/* Metadata row */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 text-xs sm:text-sm font-body"
-              style={{ color: "#8B8B7A" }}>
+              style={{ color: "#8A8A74" }}>
               <span className="flex items-center gap-1.5">
                 <Calendar size={13} />
                 <span className="hidden sm:inline">{blog.date}</span>
@@ -173,19 +173,19 @@ function BlogCard({ blog, index }: { blog: typeof blogs[0]; index: number }) {
 
 export default function BlogsSection() {
   return (
-    <section className="pt-2 pb-20 sm:pb-24" style={{ background: "var(--mid-forest)" }}>
+    <section className="pt-8 sm:pt-16 pb-14 sm:pb-24" style={{ background: "var(--mid-forest)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Section header */}
-        <div className="text-center mb-14 sm:mb-20 animate-fade-up">
+        <div className="text-center mb-10 sm:mb-20 animate-fade-up">
           <div className="flex justify-center items-center gap-3 mb-4">
-            <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, transparent, #7C9F6E)" }} />
+            <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, transparent, #79A668)" }} />
             <span
               className="text-[11px] sm:text-xs tracking-[0.25em] uppercase font-body"
               style={{ color: "var(--moss-light)" }}
             >
               Forest Floor
             </span>
-            <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, #7C9F6E, transparent)" }} />
+            <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, #79A668, transparent)" }} />
           </div>
 
           <h2
@@ -204,19 +204,19 @@ export default function BlogsSection() {
         </div>
 
         {/* Cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
           {blogs.map((blog, i) => (
             <BlogCard key={blog.id} blog={blog} index={i} />
           ))}
         </div>
 
         {/* Bottom CTA */}
-        <div className="text-center mt-14 sm:mt-18 animate-fade-up stagger-5">
+        <div className="text-center mt-10 sm:mt-18 animate-fade-up stagger-5">
           <button
             className="font-body font-semibold px-8 sm:px-10 py-3.5 sm:py-4 transition-all duration-300 hover:-translate-y-0.5 text-sm sm:text-base"
             style={{
-              background: "linear-gradient(135deg, #C49A4A 0%, #D4A84B 100%)",
-              color: "#1A1814",
+              background: "linear-gradient(135deg, #D4983A 0%, #DEAE4A 100%)",
+              color: "#191714",
               borderRadius: "9999px",
               boxShadow: "0 4px 20px rgba(196, 154, 74, 0.2)",
             }}

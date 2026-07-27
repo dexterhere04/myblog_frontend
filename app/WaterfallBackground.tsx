@@ -737,7 +737,8 @@ export default function WaterfallBackground() {
   const reducedMotion = useReducedMotion()
   const [dpr] = useState<[number, number]>(() => {
     if (typeof window !== "undefined") {
-      return [1, Math.min(1.5, window.devicePixelRatio)]
+      const isMobile = window.innerWidth < 768
+      return isMobile ? [1, 1] : [1, Math.min(1.5, window.devicePixelRatio)]
     }
     return [1, 1.5]
   })
@@ -772,7 +773,7 @@ export default function WaterfallBackground() {
             pointerEvents: "none",
           }}
         >
-          <color attach="background" args={["#091410"]} />
+          <color attach="background" args={["#060F0C"]} />
           <ambientLight intensity={0.3} />
           <SceneContent mouse={mouse} reducedMotion={reducedMotion} />
         </Canvas>
