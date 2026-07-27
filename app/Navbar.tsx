@@ -25,7 +25,7 @@ function Navbar() {
 
   return (
     <nav
-      className="navbar fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-4 sm:py-4 transition-all duration-300"
+      className="navbar fixed top-0 left-0 right-0 z-50 px-3 sm:px-6 py-3 sm:py-4 transition-all duration-300"
       style={{
         background: 'rgba(9, 20, 16, 0.8)',
         boxShadow: '0 4px 24px rgba(0, 0, 0, 0.25)',
@@ -38,9 +38,9 @@ function Navbar() {
         {/* Logo */}
         <div className="flex items-center cursor-pointer group shrink-0">
           <span
-            className="font-display font-bold text-lg sm:text-xl tracking-tight"
+            className="font-display font-bold text-base sm:text-xl tracking-tight"
             style={{
-              background: 'linear-gradient(135deg, #C49A4A 0%, #E8C87A 100%)',
+              background: 'linear-gradient(135deg, #D4983A 0%, #E8C060 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -48,7 +48,7 @@ function Navbar() {
           >
             THARUN
           </span>
-          <span className="font-display font-light text-lg sm:text-xl ml-1.5 tracking-wide" style={{ color: '#B8D0C8' }}>
+          <span className="font-display font-light text-base sm:text-xl ml-1 sm:ml-1.5 tracking-wide" style={{ color: '#B8D2C5' }}>
             BLOGS
           </span>
         </div>
@@ -63,7 +63,7 @@ function Navbar() {
               >
                 <span
                   className="relative z-10 transition-colors duration-300"
-                  style={{ color: activeLink === link ? '#E8C87A' : 'rgba(184, 208, 200, 0.8)' }}
+                  style={{ color: activeLink === link ? '#E8C060' : 'rgba(184, 210, 197, 0.8)' }}
                 >
                   {link}
                 </span>
@@ -72,7 +72,7 @@ function Navbar() {
                   <span
                     className="absolute bottom-0 left-3 right-3 h-[2px] rounded-full"
                     style={{
-                      background: 'linear-gradient(90deg, #C49A4A 0%, #E8C87A 100%)',
+                      background: 'linear-gradient(90deg, #D4983A 0%, #E8C060 100%)',
                     }}
                   />
                 )}
@@ -80,7 +80,7 @@ function Navbar() {
                 {activeLink !== link && (
                   <span
                     className="absolute bottom-0 left-3 right-3 h-[2px] opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-full"
-                    style={{ background: '#B8D0C8' }}
+                    style={{ background: '#B8D2C5' }}
                   />
                 )}
               </button>
@@ -96,7 +96,7 @@ function Navbar() {
           }`}
           aria-label={isMuted ? 'Unmute waterfall sound' : 'Mute waterfall sound'}
           title={isMuted ? 'Unmute waterfall sound' : 'Mute waterfall sound'}
-          style={{ color: shouldBlink && isMuted ? '#E8C060' : '#B8D0C8' }}
+          style={{ color: shouldBlink && isMuted ? '#E8C060' : '#B8D2C5' }}
         >
           {isMuted ? <VolumeX size={20} className="sm:w-[22px] sm:h-[22px]" /> : <Volume2 size={20} className="sm:w-[22px] sm:h-[22px]" />}
         </button>
@@ -110,15 +110,15 @@ function Navbar() {
           <div className="w-6 h-5 flex flex-col justify-between">
             <span
               className={`w-full h-0.5 transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}
-              style={{ background: '#B8D0C8' }}
+              style={{ background: '#B8D2C5' }}
             />
             <span
               className={`w-full h-0.5 transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`}
-              style={{ background: '#B8D0C8' }}
+              style={{ background: '#B8D2C5' }}
             />
             <span
               className={`w-full h-0.5 transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}
-              style={{ background: '#B8D0C8' }}
+              style={{ background: '#B8D2C5' }}
             />
           </div>
         </button>
@@ -144,7 +144,7 @@ function Navbar() {
               className={`w-full text-left px-4 py-3 rounded-lg font-body font-medium text-sm tracking-wide transition-all duration-200 ${
                 activeLink === link ? 'bg-white/10' : 'hover:bg-white/5'
               }`}
-              style={{ color: activeLink === link ? '#E8C87A' : 'rgba(184, 208, 200, 0.8)' }}
+              style={{ color: activeLink === link ? '#E8C060' : 'rgba(184, 210, 197, 0.8)' }}
             >
               {link}
             </button>

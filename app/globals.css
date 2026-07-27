@@ -1,30 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --ink: #1A1814;
-  --parchment: #FBF7EF;
-  --parchment-warm: #F5ECD7;
-  --cream: #F0E8D8;
-  --moss: #4A6741;
-  --moss-light: #7C9F6E;
-  --bark: #5C4033;
-  --cedar: #8B6B4A;
-  --fern: #6B8E6B;
-  --lichen: #A8B89A;
-  --sage: #8AA89A;
-  --gold: #C49A4A;
-  --honey: #D4A84B;
-  --amber: #B87333;
-  --stone: #2D2A25;
-  --shadow: #0A1A14;
-  --pine: #1A2E22;
-  --pine-light: #2D4A3A;
-  --deep-forest: #091410;
-  --mid-forest: #0D1F1A;
-  --dark-forest: #142E22;
-  --cream-warm: #EDE4D3;
-  --mist: #B8D0C8;
-  --white-warm: #FDFAF3;
+  --ink: #191714;
+  --parchment: #F7EFDE;
+  --parchment-warm: #F1E5CD;
+  --cream: #EDE2CE;
+  --moss: #4F7A42;
+  --moss-light: #79A668;
+  --bark: #5E4230;
+  --cedar: #96704A;
+  --fern: #689A68;
+  --lichen: #A4BA92;
+  --sage: #8AAF98;
+  --gold: #D4983A;
+  --honey: #DEAE4A;
+  --amber: #C07840;
+  --stone: #2C2822;
+  --shadow: #050F0B;
+  --pine: #1A3023;
+  --pine-light: #2E4C3B;
+  --deep-forest: #060F0C;
+  --mid-forest: #0F2218;
+  --dark-forest: #182E22;
+  --cream-warm: #EBDFC8;
+  --mist: #B8D2C5;
+  --white-warm: #FCF7ED;
 }
 
 /* ─── Custom font utilities ────────────────── */

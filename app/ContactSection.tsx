@@ -27,10 +27,10 @@ function ContactSection() {
 
   const inputStyle = (name: string) => ({
     border: focused === name
-      ? "1.5px solid #C49A4A"
+      ? "1.5px solid #D4983A"
       : "1.5px solid rgba(92, 64, 51, 0.2)",
-    background: "#FDFAF3",
-    color: "#1A1814",
+    background: "#FCF7ED",
+    color: "#191714",
     outline: "none",
     boxShadow: focused === name
       ? "0 0 0 3px rgba(196, 154, 74, 0.12)"
@@ -38,26 +38,16 @@ function ContactSection() {
   });
 
   return (
-    <section className="relative">
-      {/* Stream divider */}
-      <div className="relative h-4 sm:h-6 overflow-hidden" style={{ background: "var(--mid-forest)" }}>
-        <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1440 100" preserveAspectRatio="none">
-          <path
-            d="M0,40 C200,75 400,15 600,55 C800,95 1000,25 1200,50 C1300,62 1400,35 1440,30 L1440,100 L0,100 Z"
-            fill="var(--pine)"
-          />
-        </svg>
-      </div>
-
+    <section className="relative" style={{ background: "var(--pine)" }}>
       {/* Main content — warmer section with cedar tones */}
-      <div className="py-16 sm:py-20 relative overflow-hidden" style={{ background: "var(--pine)" }}>
+      <div className="py-12 sm:py-20 relative overflow-hidden">
         {/* Background decorative pattern */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
           style={{
             backgroundImage: `
-              radial-gradient(circle at 20% 80%, #D4A84B 1px, transparent 1px),
-              radial-gradient(circle at 80% 20%, #D4A84B 1px, transparent 1px),
-              radial-gradient(circle at 40% 40%, #C49A4A 1px, transparent 1px)
+              radial-gradient(circle at 20% 80%, #DEAE4A 1px, transparent 1px),
+              radial-gradient(circle at 80% 20%, #DEAE4A 1px, transparent 1px),
+              radial-gradient(circle at 40% 40%, #D4983A 1px, transparent 1px)
             `,
             backgroundSize: "120px 120px, 160px 160px, 100px 100px",
           }}
@@ -65,16 +55,16 @@ function ContactSection() {
 
         <div className="max-w-3xl mx-auto px-4 sm:px-6 relative z-10">
           {/* Header */}
-          <div className="text-center mb-12 sm:mb-16">
+          <div className="text-center mb-8 sm:mb-16">
             <div className="flex justify-center items-center gap-3 mb-4">
-              <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, transparent, #D4A84B)" }} />
+              <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, transparent, #DEAE4A)" }} />
               <span
                 className="text-[11px] sm:text-xs tracking-[0.25em] uppercase font-body"
                 style={{ color: "var(--honey)" }}
               >
                 Reach Out
               </span>
-              <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, #D4A84B, transparent)" }} />
+              <div className="w-8 h-px" style={{ background: "linear-gradient(90deg, #DEAE4A, transparent)" }} />
             </div>
 
             <h2
@@ -93,22 +83,22 @@ function ContactSection() {
           </div>
 
           {/* Social pills */}
-          <div className="flex justify-center gap-3 sm:gap-4 mb-12 sm:mb-16 flex-wrap">
+          <div className="flex justify-center gap-2 sm:gap-4 mb-10 sm:mb-16 flex-wrap">
             {socials.map(({ Icon, label, href }) => (
               <a
                 key={label}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-2.5 px-5 py-2.5 transition-all duration-300 hover:-translate-y-0.5"
+                className="group flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2 sm:py-2.5 transition-all duration-300 hover:-translate-y-0.5"
                 style={{
                   background: "rgba(251, 247, 239, 0.06)",
                   border: "1.5px solid rgba(196, 154, 74, 0.25)",
                   borderRadius: "9999px",
-                  color: "#C49A4A",
+                  color: "#D4983A",
                 }}
               >
-                <Icon size={15} className="transition-colors duration-300 group-hover:text-[#D4A84B]" />
+                <Icon size={15} className="transition-colors duration-300 group-hover:text-[#DEAE4A]" />
                 <span className="font-body text-sm tracking-wide">{label}</span>
                 <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-all duration-300 -ml-1 group-hover:ml-0" />
               </a>
@@ -117,27 +107,27 @@ function ContactSection() {
 
           {/* Form card */}
           <div
-            className="p-6 sm:p-8 md:p-10 relative grain-overlay"
+            className="p-4 sm:p-8 md:p-10 relative grain-overlay"
             style={{
-              background: "linear-gradient(180deg, #F5ECD7 0%, #EDE4D3 100%)",
+              background: "linear-gradient(180deg, #F1E5CD 0%, #EBDFC8 100%)",
               borderRadius: "20px",
               border: "1.5px solid rgba(92, 64, 51, 0.15)",
               boxShadow: "0 8px 40px rgba(0, 0, 0, 0.2)",
             }}
           >
             {/* Decorative corner accents */}
-            <div className="absolute top-3 left-3 w-6 h-6 border-l-2 border-t-2 rounded-tl-md opacity-30"
-              style={{ borderColor: "#C49A4A" }} />
-            <div className="absolute top-3 right-3 w-6 h-6 border-r-2 border-t-2 rounded-tr-md opacity-30"
-              style={{ borderColor: "#C49A4A" }} />
-            <div className="absolute bottom-3 left-3 w-6 h-6 border-l-2 border-b-2 rounded-bl-md opacity-30"
-              style={{ borderColor: "#C49A4A" }} />
-            <div className="absolute bottom-3 right-3 w-6 h-6 border-r-2 border-b-2 rounded-br-md opacity-30"
-              style={{ borderColor: "#C49A4A" }} />
+            <div className="hidden sm:block absolute top-3 left-3 w-6 h-6 border-l-2 border-t-2 rounded-tl-md opacity-30"
+              style={{ borderColor: "#D4983A" }} />
+            <div className="hidden sm:block absolute top-3 right-3 w-6 h-6 border-r-2 border-t-2 rounded-tr-md opacity-30"
+              style={{ borderColor: "#D4983A" }} />
+            <div className="hidden sm:block absolute bottom-3 left-3 w-6 h-6 border-l-2 border-b-2 rounded-bl-md opacity-30"
+              style={{ borderColor: "#D4983A" }} />
+            <div className="hidden sm:block absolute bottom-3 right-3 w-6 h-6 border-r-2 border-b-2 rounded-br-md opacity-30"
+              style={{ borderColor: "#D4983A" }} />
 
             <form onSubmit={handleSubmit}>
               <div className="relative mb-4">
-                <User size={14} className="absolute left-4 top-4 pointer-events-none" style={{ color: "#B87333" }} />
+                <User size={14} className="absolute left-4 top-4 pointer-events-none" style={{ color: "#C07840" }} />
                 <input
                   name="name"
                   placeholder="Your Name"
@@ -151,7 +141,7 @@ function ContactSection() {
               </div>
 
               <div className="relative mb-4">
-                <Mail size={14} className="absolute left-4 top-4 pointer-events-none" style={{ color: "#B87333" }} />
+                <Mail size={14} className="absolute left-4 top-4 pointer-events-none" style={{ color: "#C07840" }} />
                 <input
                   name="email"
                   type="email"
@@ -180,10 +170,10 @@ function ContactSection() {
               <div className="text-center">
                 <button
                   type="submit"
-                  className="group inline-flex items-center gap-2.5 px-8 sm:px-10 py-3.5 font-body font-semibold text-sm sm:text-base transition-all duration-300 hover:-translate-y-0.5"
+                  className="group inline-flex items-center gap-2 sm:gap-2.5 px-6 sm:px-10 py-3 sm:py-3.5 font-body font-semibold text-sm sm:text-base transition-all duration-300 hover:-translate-y-0.5 w-full sm:w-auto justify-center"
                   style={{
-                    background: "linear-gradient(135deg, #C49A4A 0%, #D4A84B 100%)",
-                    color: "#1A1814",
+                    background: "linear-gradient(135deg, #D4983A 0%, #DEAE4A 100%)",
+                    color: "#191714",
                     borderRadius: "9999px",
                     boxShadow: "0 4px 20px rgba(196, 154, 74, 0.2)",
                   }}
