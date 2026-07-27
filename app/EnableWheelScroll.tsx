@@ -7,8 +7,22 @@ export default function EnableWheelScroll() {
     const handler = (e: WheelEvent) => {
       try {
         const tgt = e.target as HTMLElement | null
-        const tag = tgt?.tagName
-        if (tag && ["INPUT", "TEXTAREA", "SELECT"].includes(tag)) return
+
+        if (tgt) {
+          const tag = tgt.tagName
+          if (["INPUT", "SELECT"].includes(tag)) {
+            window.scrollBy({ top: e.deltaY, left: 0 })
+            e.preventDefault()
+            return
+          }
+
+          if (tag === "TEXTAREA") {
+            const textarea = tgt as HTMLTextAreaElement
+            const canScrollDown = e.deltaY > 0 && textarea.scrollTop + textarea.clientHeight < textarea.scrollHeight
+            const canScrollUp = e.deltaY < 0 && textarea.scrollTop > 0
+            if (canScrollDown || canScrollUp) return
+          }
+        }
 
         window.scrollBy({ top: e.deltaY, left: 0 })
 

@@ -115,17 +115,25 @@ const FRAG_WALL = `
   void main() {
     vec2 uv = v;
     float aspect = uRes.x / uRes.y;
+    float mobile = smoothstep(1.25, 0.65, aspect);
     uv.x *= aspect;
+    float stripeBoost = mix(1.0, 2.3, mobile);
+    float stretchBoost = mix(1.0, 1.42, mobile);
 
     float t = uT * uS;
 
-    vec2 flowUV = vec2(uv.x * 4.0, uv.y * 6.0 + t * 2.0);
+    vec2 flowUV = vec2(uv.x * 4.0 * stretchBoost, uv.y * 6.0 + t * 2.0);
 
     float turb = turbulence(flowUV + vec2(0.0, t * 0.3));
 
-    float streaks1 = pow(abs(sin(uv.x * 35.0 + turb * 2.0)), 3.0);
-    float streaks2 = pow(abs(sin(uv.x * 18.0 + turb * 1.5)), 4.0);
-    float verticalStreaks = max(streaks1 * 0.6, streaks2 * 0.4);
+    float streaks1 = pow(abs(sin(uv.x * (35.0 * stripeBoost) + turb * 2.0)), mix(3.0, 1.8, mobile));
+    float streaks2 = pow(abs(sin(uv.x * (18.0 * stripeBoost) + turb * 1.5)), mix(4.0, 2.2, mobile));
+    float streaks3 = pow(abs(sin(uv.x * (9.0 * stripeBoost) + turb * 0.9)), 2.0);
+    float streaks4 = pow(abs(sin(uv.x * (52.0 * stripeBoost) + turb * 2.8)), mix(5.0, 2.4, mobile));
+    float verticalStreaks = max(streaks1 * 0.55, streaks2 * 0.45);
+    verticalStreaks = max(verticalStreaks, streaks3 * (0.15 + mobile * 0.32));
+    verticalStreaks = max(verticalStreaks, streaks4 * (0.12 + mobile * 0.26));
+    verticalStreaks = smoothstep(0.15, 0.95, verticalStreaks);
 
     float water = fbm(flowUV + vec2(turb * 0.2, 0.0));
 
@@ -139,17 +147,21 @@ const FRAG_WALL = `
 
     vec3 color = mix(cD, cM, water);
     color = mix(color, cL, pow(water, 2.0) * 0.6);
-    color = mix(color, cL * 1.2, verticalStreaks * 0.3);
+    color = mix(color, cL * 1.2, verticalStreaks * mix(0.3, 0.42, mobile));
     color = mix(color, cF, foam * 0.7);
+    color = mix(color, cD, mobile * 0.12 * (1.0 - verticalStreaks));
 
     float greenReflect = smoothstep(0.3, 0.7, v.x) * smoothstep(0.0, 0.5, v.y * v.y);
     greenReflect *= 0.5 + 0.5 * sin(uv.x * 8.0 + t * 0.2);
     color = mix(color, cFoliage, greenReflect * 0.06);
 
     float mist = smoothstep(0.25, 0.0, v.y) * fbm(uv * 1.8 + vec2(0.0, t * 0.3));
-    color = mix(color, vec3(0.6, 0.8, 0.75), mist * 0.5);
+    color = mix(color, vec3(0.6, 0.8, 0.75), mist * mix(0.34, 0.46, 1.0 - mobile));
 
-    color *= smoothstep(1.0, 0.7, abs(uv.x - aspect * 0.5) * 2.0 / aspect);
+    float band = smoothstep(0.15, 0.8, sin(uv.y * mix(5.5, 9.8, mobile) + turb * 2.0) * 0.5 + 0.5);
+    color = mix(color, cM, band * mobile * 0.16);
+
+    color *= smoothstep(1.0, mix(0.78, 0.7, mobile), abs(uv.x - aspect * 0.5) * 2.0 / aspect);
     color *= 1.0 - smoothstep(0.85, 1.0, v.y);
 
     gl_FragColor = vec4(color, uO);
@@ -682,12 +694,30 @@ function SceneContent({
   const groupRef = useRef<THREE.Group>(null!)
   const { camera } = useThree()
 
+  /* eslint-disable react-hooks/immutability */
   useEffect(() => {
-    if (camera instanceof THREE.PerspectiveCamera) {
-      camera.position.set(0, 1.5, 8)
-      camera.lookAt(0, -0.5, 0)
+    const updateLayout = () => {
+      const aspect = window.innerWidth / window.innerHeight
+      const isPortrait = aspect < 1
+      const scale = isPortrait
+        ? Math.max(1.0, 1.08 + (aspect - 1) * 0.02)
+        : 1
+      if (groupRef.current) {
+        groupRef.current.scale.setScalar(scale)
+        groupRef.current.position.y = isPortrait ? 0.5 : 0
+      }
+      if (camera instanceof THREE.PerspectiveCamera) {
+        camera.fov = isPortrait ? 50 : 55
+        camera.position.set(0, isPortrait ? 1.15 : 1.5, isPortrait ? 7.0 : 8)
+        camera.lookAt(0, isPortrait ? -0.35 : -0.5, 0)
+        camera.updateProjectionMatrix()
+      }
     }
+    updateLayout()
+    window.addEventListener("resize", updateLayout)
+    return () => window.removeEventListener("resize", updateLayout)
   }, [camera])
+  /* eslint-enable react-hooks/immutability */
 
   useFrame(() => {
     if (!groupRef.current || reducedMotion) return
@@ -738,9 +768,9 @@ export default function WaterfallBackground() {
   const [dpr] = useState<[number, number]>(() => {
     if (typeof window !== "undefined") {
       const isMobile = window.innerWidth < 768
-      return isMobile ? [1, 1] : [1, Math.min(1.5, window.devicePixelRatio)]
+      return isMobile ? [1, 1.75] : [1, Math.min(1.85, window.devicePixelRatio)]
     }
-    return [1, 1.5]
+    return [1, 1.85]
   })
 
   return (
