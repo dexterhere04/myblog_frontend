@@ -4,6 +4,8 @@ import { Playfair_Display, Lora } from "next/font/google";
 import "./globals.css";
 import Navbar from "./Navbar";
 import EnableWheelScroll from "./EnableWheelScroll";
+import AudioProvider from "./AudioContext";
+import WaterfallAudio from "./WaterfallAudio";
 
 const WaterfallBackground = dynamic(() => import("./WaterfallBackground"));
 
@@ -34,10 +36,13 @@ export default function RootLayout({
       <body
         className={`${playfair.variable} ${lora.variable} antialiased overflow-x-hidden min-h-dvh`}
       >
-        <Navbar />
-        <WaterfallBackground />
-        <EnableWheelScroll />
-        {children}
+        <AudioProvider>
+          <Navbar />
+          <WaterfallAudio />
+          <WaterfallBackground />
+          <EnableWheelScroll />
+          {children}
+        </AudioProvider>
       </body>
     </html>
   );
