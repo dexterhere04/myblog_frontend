@@ -1,10 +1,27 @@
 "use client"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Volume2, VolumeX } from 'lucide-react'
+import { useAudio } from './AudioContext'
 
 function Navbar() {
   const [activeLink, setActiveLink] = useState('Home')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const navLinks = ['Home', 'Blogs', 'About', 'Contact']
+  const { isMuted, toggleMute } = useAudio()
+  const [intenseBlink, setIntenseBlink] = useState(true)
+  const [shouldBlink, setShouldBlink] = useState(true)
+
+  const handleMuteClick = () => {
+    setIntenseBlink(false)
+    setShouldBlink(false)
+    toggleMute()
+  }
+
+  useEffect(() => {
+    const intenseTimer = setTimeout(() => setIntenseBlink(false), 10000)
+    const stopTimer = setTimeout(() => setShouldBlink(false), 20000)
+    return () => { clearTimeout(intenseTimer); clearTimeout(stopTimer) }
+  }, [])
 
   return (
     <nav
@@ -71,10 +88,23 @@ function Navbar() {
           ))}
         </ul>
 
+        {/* Mute toggle */}
+        <button
+          onClick={handleMuteClick}
+          className={`ml-2 sm:ml-4 p-2 sm:p-2.5 rounded-lg hover:bg-white/10 transition-colors duration-200 focus:outline-none ${
+            isMuted && intenseBlink ? 'animate-blink-strong' : isMuted && shouldBlink ? 'animate-pulse' : ''
+          }`}
+          aria-label={isMuted ? 'Unmute waterfall sound' : 'Mute waterfall sound'}
+          title={isMuted ? 'Unmute waterfall sound' : 'Mute waterfall sound'}
+          style={{ color: shouldBlink && isMuted ? '#E8C060' : '#B8D0C8' }}
+        >
+          {isMuted ? <VolumeX size={20} className="sm:w-[22px] sm:h-[22px]" /> : <Volume2 size={20} className="sm:w-[22px] sm:h-[22px]" />}
+        </button>
+
         {/* Mobile hamburger */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden focus:outline-none ml-auto"
+          className="md:hidden focus:outline-none"
           aria-label="Toggle menu"
         >
           <div className="w-6 h-5 flex flex-col justify-between">
