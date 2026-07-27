@@ -1,18 +1,20 @@
 import HeroSection from "./HeroSection";
 import BlogsSection from "./BlogsSection";
 import ForestRidgeDivider from "./MountainDivider";
+import FallenLogDivider from "./FallenLogDivider";
 import ContactSection from "./ContactSection";
+import DeepRootsDivider from "./DeepRootsDivider";
 import AboutSection from "./AboutSection";
 
 export default function Home() {
   return (
     <div className="relative min-h-dvh">
       <HeroSection />
-      <div className="-mt-40 sm:-mt-44 md:-mt-48 lg:-mt-52">
-        <ForestRidgeDivider />
-      </div>
+      <ForestRidgeDivider />
       <BlogsSection />
+      <FallenLogDivider />
       <ContactSection />
+      <DeepRootsDivider />
       <AboutSection />
     </div>
   );
