@@ -385,7 +385,7 @@ const FRAG_POOL = `
 `
 
 // ─── Water Wall Layer ──────────────────────────────────────────
-function WaterWallLayer({
+const WaterWallLayer = React.memo(function WaterWallLayer({
   speed, opacity, zOff,
 }: {
   speed: number; opacity: number; zOff: number
@@ -435,10 +435,10 @@ function WaterWallLayer({
       />
     </mesh>
   )
-}
+})
 
 // ─── Cliff Face ─────────────────────────────────────────────────
-function CliffFace() {
+const CliffFace = React.memo(function CliffFace() {
   const ref = useRef<THREE.ShaderMaterial>(null!)
 
   const uni = useMemo(() => ({
@@ -469,10 +469,10 @@ function CliffFace() {
       />
     </mesh>
   )
-}
+})
 
 // ─── Side Foliage ───────────────────────────────────────────────
-function SideFoliage({ side }: { side: "left" | "right" }) {
+const SideFoliage = React.memo(function SideFoliage({ side }: { side: "left" | "right" }) {
   const ref = useRef<THREE.ShaderMaterial>(null!)
   const isLeft = side === "left"
 
@@ -504,10 +504,10 @@ function SideFoliage({ side }: { side: "left" | "right" }) {
       />
     </mesh>
   )
-}
+})
 
 // ─── Forest Canopy ──────────────────────────────────────────────
-function ForestCanopy() {
+const ForestCanopy = React.memo(function ForestCanopy() {
   const ref = useRef<THREE.ShaderMaterial>(null!)
 
   const uni = useMemo(() => ({
@@ -536,10 +536,10 @@ function ForestCanopy() {
       />
     </mesh>
   )
-}
+})
 
 // ─── Mist Layer ─────────────────────────────────────────────────
-function MistLayer() {
+const MistLayer = React.memo(function MistLayer() {
   const ref = useRef<THREE.ShaderMaterial>(null!)
 
   const uni = useMemo(() => ({
@@ -565,10 +565,10 @@ function MistLayer() {
       />
     </mesh>
   )
-}
+})
 
 // ─── Foreground ─────────────────────────────────────────────────
-function Foreground() {
+const Foreground = React.memo(function Foreground() {
   const ref = useRef<THREE.ShaderMaterial>(null!)
 
   const uni = useMemo(() => ({
@@ -599,10 +599,10 @@ function Foreground() {
       />
     </mesh>
   )
-}
+})
 
 // ─── Light Rays ─────────────────────────────────────────────────
-function LightRays({
+const LightRays = React.memo(function LightRays({
   mouse,
 }: {
   mouse: React.MutableRefObject<{ x: number; y: number }>
@@ -618,6 +618,9 @@ function LightRays({
   const targetVec = useMemo(() => new THREE.Vector2(), [])
 
   useEffect(() => {
+    const hasTouch = typeof window !== "undefined" && "ontouchstart" in window
+    if (hasTouch) return
+
     const onMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth) * 2 - 1
       const y = (e.clientY / window.innerHeight) * 2 - 1
@@ -649,10 +652,10 @@ function LightRays({
       />
     </mesh>
   )
-}
+})
 
 // ─── Water Pool ─────────────────────────────────────────────────
-function WaterPool() {
+const WaterPool = React.memo(function WaterPool() {
   const ref = useRef<THREE.ShaderMaterial>(null!)
 
   const uni = useMemo(() => ({
@@ -681,10 +684,10 @@ function WaterPool() {
       />
     </mesh>
   )
-}
+})
 
 // ─── Scene ──────────────────────────────────────────────────────
-function SceneContent({
+const SceneContent = React.memo(function SceneContent({
   mouse,
   reducedMotion,
 }: {
@@ -694,30 +697,36 @@ function SceneContent({
   const groupRef = useRef<THREE.Group>(null!)
   const { camera } = useThree()
 
-  /* eslint-disable react-hooks/immutability */
   useEffect(() => {
+    let rAF = 0
     const updateLayout = () => {
-      const aspect = window.innerWidth / window.innerHeight
-      const isPortrait = aspect < 1
-      const scale = isPortrait
-        ? Math.max(1.0, 1.08 + (aspect - 1) * 0.02)
-        : 1
-      if (groupRef.current) {
-        groupRef.current.scale.setScalar(scale)
-        groupRef.current.position.y = isPortrait ? 0.5 : 0
-      }
-      if (camera instanceof THREE.PerspectiveCamera) {
-        camera.fov = isPortrait ? 50 : 55
-        camera.position.set(0, isPortrait ? 1.15 : 1.5, isPortrait ? 7.0 : 8)
-        camera.lookAt(0, isPortrait ? -0.35 : -0.5, 0)
-        camera.updateProjectionMatrix()
-      }
+      if (rAF) return
+      rAF = requestAnimationFrame(() => {
+        rAF = 0
+        const aspect = window.innerWidth / window.innerHeight
+        const isPortrait = aspect < 1
+        const scale = isPortrait
+          ? Math.max(1.0, 1.08 + (aspect - 1) * 0.02)
+          : 1
+        if (groupRef.current) {
+          groupRef.current.scale.setScalar(scale)
+          groupRef.current.position.y = isPortrait ? 0.5 : 0
+        }
+        if (camera instanceof THREE.PerspectiveCamera) {
+          camera.fov = isPortrait ? 50 : 55
+          camera.position.set(0, isPortrait ? 1.15 : 1.5, isPortrait ? 7.0 : 8)
+          camera.lookAt(0, isPortrait ? -0.35 : -0.5, 0)
+          camera.updateProjectionMatrix()
+        }
+      })
     }
     updateLayout()
     window.addEventListener("resize", updateLayout)
-    return () => window.removeEventListener("resize", updateLayout)
+    return () => {
+      window.removeEventListener("resize", updateLayout)
+      if (rAF) cancelAnimationFrame(rAF)
+    }
   }, [camera])
-  /* eslint-enable react-hooks/immutability */
 
   useFrame(() => {
     if (!groupRef.current || reducedMotion) return
@@ -742,7 +751,7 @@ function SceneContent({
       <WaterPool />
     </group>
   )
-}
+})
 
 // ─── Reduced Motion Hook ────────────────────────────────────────
 function useReducedMotion() {
@@ -768,7 +777,7 @@ export default function WaterfallBackground() {
   const [dpr] = useState<[number, number]>(() => {
     if (typeof window !== "undefined") {
       const isMobile = window.innerWidth < 768
-      return isMobile ? [1, 1.75] : [1, Math.min(1.85, window.devicePixelRatio)]
+      return isMobile ? [1, 1.5] : [1, Math.min(1.75, window.devicePixelRatio)]
     }
     return [1, 1.85]
   })
@@ -790,6 +799,7 @@ export default function WaterfallBackground() {
         <Canvas
           camera={{ position: [0, 1.5, 8], fov: 55, near: 0.1, far: 30 }}
           dpr={dpr}
+          performance={{ min: 0.5 }}
           gl={{
             antialias: true,
             alpha: false,
