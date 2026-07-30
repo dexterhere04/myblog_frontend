@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Github, Linkedin, MessageCircle, Send, Mail, ArrowUpRight, User, CheckCircle, AlertCircle } from "lucide-react";
 
 const socials = [
-  { Icon: Github, label: "GitHub", href: "https://github.com" },
-  { Icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com" },
+  { Icon: Github, label: "GitHub", href: "https://github.com/dexterhere04" },
+  { Icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/tharun-sdr/" },
   { Icon: MessageCircle, label: "Email", href: "mailto:sdrtharun@gmail.com" },
 ];
 

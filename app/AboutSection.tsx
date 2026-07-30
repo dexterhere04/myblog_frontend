@@ -1,4 +1,5 @@
 import { Sprout, TreePine, Sun, Flower2 } from "lucide-react"
+import Image from "next/image"
 
 const skills = [
   {
@@ -139,27 +140,15 @@ export default function AboutSection() {
                   borderRadius: "12px",
                 }}
               >
-                <div
-                  className="aspect-square flex items-center justify-center"
-                  style={{ background: "linear-gradient(135deg, #1A3023 0%, #2E4C3B 50%, #1A3023 100%)" }}
-                >
-                  <div className="text-center p-6 sm:p-8 md:p-10">
-                    <div
-                      className="w-20 h-20 sm:w-36 sm:h-36 md:w-44 md:h-44 mx-auto mb-3 sm:mb-6 rounded-full flex items-center justify-center"
-                      style={{
-                        background: "var(--dark-forest)",
-                        border: "3px solid var(--deep-forest)",
-                      }}
-                    >
-                      <TreePine size={40} className="sm:w-16 sm:h-16 md:w-20 md:h-20" style={{ color: "#D4983A" }} />
-                    </div>
-                    <p
-                      className="font-display font-black text-xs sm:text-base md:text-xl tracking-wider"
-                      style={{ color: "var(--parchment)" }}
-                    >
-                      PROFESSIONAL PROFILE
-                    </p>
-                  </div>
+                <div className="aspect-square relative">
+                  <Image
+                    src="/photos/1781784195826.jpeg"
+                    alt="Professional Profile"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
+                  />
                 </div>
               </div>
 

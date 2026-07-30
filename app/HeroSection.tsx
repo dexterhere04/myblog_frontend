@@ -1,4 +1,11 @@
 "use client"
+import { Github, Linkedin, Mail } from "lucide-react"
+
+const heroSocials = [
+  { Icon: Github, label: "GitHub", href: "https://github.com/dexterhere04" },
+  { Icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/tharun-sdr/" },
+  { Icon: Mail, label: "Email", href: "mailto:sdrtharun@gmail.com" },
+]
 
 function HeroSection() {
   return (
@@ -48,8 +55,29 @@ function HeroSection() {
           modern products.
         </p>
 
+        {/* Social links */}
+        <div className="flex justify-center gap-3 sm:gap-4 mb-8 sm:mb-14 animate-fade-up stagger-3">
+          {heroSocials.map(({ Icon, label, href }) => (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith("mailto") ? undefined : "_blank"}
+              rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+              className="p-2.5 sm:p-3 rounded-full transition-all duration-300 hover:-translate-y-0.5 hover:scale-110"
+              style={{
+                background: "rgba(212, 168, 75, 0.1)",
+                border: "1.5px solid rgba(212, 168, 75, 0.25)",
+                color: "#DEAE4A",
+              }}
+              aria-label={label}
+            >
+              <Icon size={18} className="sm:w-5 sm:h-5" />
+            </a>
+          ))}
+        </div>
+
         {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center animate-fade-up stagger-3 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center animate-fade-up stagger-4 w-full sm:w-auto">
           <a href="#"
             className="group relative inline-flex items-center gap-2 font-body font-semibold py-3 sm:py-4 px-6 sm:px-10 transition-all duration-300 hover:-translate-y-0.5 text-sm sm:text-base w-auto justify-center"
             style={{
