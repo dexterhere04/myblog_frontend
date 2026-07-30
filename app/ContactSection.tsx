@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Github, Linkedin, MessageCircle, Send, Mail, ArrowUpRight, User } from "lucide-react";
+import { Github, Linkedin, MessageCircle, Send, Mail, ArrowUpRight, User, CheckCircle, AlertCircle } from "lucide-react";
 
 const socials = [
   { Icon: Github, label: "GitHub", href: "https://github.com" },
@@ -8,17 +8,59 @@ const socials = [
   { Icon: MessageCircle, label: "Email", href: "mailto:sdrtharun@gmail.com" },
 ];
 
+const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ?? "";
+
+type SubmitStatus = "idle" | "sending" | "success" | "error";
+
 function ContactSection() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [focused, setFocused] = useState<string | null>(null);
+  const [status, setStatus] = useState<SubmitStatus>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const resetForm = () => {
+    setFormData({ name: "", email: "", message: "" });
+    setStatus("idle");
+    setErrorMsg("");
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent("Website Inquiry");
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-    );
-    window.location.href = `mailto:sdrtharun@gmail.com?subject=${subject}&body=${body}`;
+    setErrorMsg("");
+
+    if (!WEB3FORMS_KEY) {
+      const subject = encodeURIComponent("Website Inquiry");
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      );
+      window.location.href = `mailto:sdrtharun@gmail.com?subject=${subject}&body=${body}`;
+      return;
+    }
+
+    setStatus("sending");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setStatus("success");
+      } else {
+        setStatus("error");
+        setErrorMsg(data.message || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setStatus("error");
+      setErrorMsg("Network error. Please check your connection and try again.");
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -125,52 +167,61 @@ function ContactSection() {
             <div className="hidden sm:block absolute bottom-3 right-3 w-6 h-6 border-r-2 border-b-2 rounded-br-md opacity-30"
               style={{ borderColor: "#D4983A" }} />
 
-            <form onSubmit={handleSubmit}>
-              <div className="relative mb-4">
-                <User size={14} className="absolute left-4 top-4 pointer-events-none" style={{ color: "#C07840" }} />
-                <input
-                  name="name"
-                  placeholder="Your Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  onFocus={() => setFocused("name")}
-                  onBlur={() => setFocused(null)}
-                  className="w-full pl-10 pr-4 py-3.5 text-sm sm:text-base font-body transition-all duration-200 placeholder-gray-400"
-                  style={{ ...inputStyle("name"), borderRadius: "12px" }}
-                />
-              </div>
-
-              <div className="relative mb-4">
-                <Mail size={14} className="absolute left-4 top-4 pointer-events-none" style={{ color: "#C07840" }} />
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="Email Address"
-                  value={formData.email}
-                  onChange={handleChange}
-                  onFocus={() => setFocused("email")}
-                  onBlur={() => setFocused(null)}
-                  className="w-full pl-10 pr-4 py-3.5 text-sm sm:text-base font-body transition-all duration-200 placeholder-gray-400"
-                  style={{ ...inputStyle("email"), borderRadius: "12px" }}
-                />
-              </div>
-
-              <textarea
-                name="message"
-                rows={4}
-                placeholder="Your Message..."
-                value={formData.message}
-                onChange={handleChange}
-                onFocus={() => setFocused("message")}
-                onBlur={() => setFocused(null)}
-                className="w-full mb-6 px-4 py-3.5 text-sm sm:text-base font-body transition-all duration-200 placeholder-gray-400 resize-none"
-                style={{ ...inputStyle("message"), borderRadius: "12px" }}
-              />
-
-              <div className="text-center">
+            {status === "success" ? (
+              <div className="text-center py-8 sm:py-12">
+                <CheckCircle size={48} className="mx-auto mb-4" style={{ color: "#4F7A42" }} />
+                <h3
+                  className="font-display text-xl sm:text-2xl font-bold mb-2"
+                  style={{ color: "var(--pine)" }}
+                >
+                  Message Sent
+                </h3>
+                <p
+                  className="font-body text-sm sm:text-base mb-6"
+                  style={{ color: "#5E6E5E" }}
+                >
+                  Thank you for reaching out. I&apos;ll get back to you soon.
+                </p>
                 <button
-                  type="submit"
-                  className="group inline-flex items-center gap-2 sm:gap-2.5 px-6 sm:px-10 py-3 sm:py-3.5 font-body font-semibold text-sm sm:text-base transition-all duration-300 hover:-translate-y-0.5 w-full sm:w-auto justify-center"
+                  onClick={resetForm}
+                  className="font-body font-semibold px-6 sm:px-8 py-2.5 sm:py-3 transition-all duration-300 hover:-translate-y-0.5 text-sm sm:text-base"
+                  style={{
+                    background: "transparent",
+                    color: "#D4983A",
+                    border: "2px solid #D4983A",
+                    borderRadius: "9999px",
+                  }}
+                >
+                  Send Another
+                </button>
+              </div>
+            ) : status === "error" ? (
+              <div className="text-center py-8 sm:py-12">
+                <AlertCircle size={48} className="mx-auto mb-4" style={{ color: "#C07840" }} />
+                <h3
+                  className="font-display text-xl sm:text-2xl font-bold mb-2"
+                  style={{ color: "var(--pine)" }}
+                >
+                  Something Went Wrong
+                </h3>
+                <p
+                  className="font-body text-sm sm:text-base mb-2"
+                  style={{ color: "#5E6E5E" }}
+                >
+                  {errorMsg}
+                </p>
+                <p
+                  className="font-body text-sm mb-6"
+                  style={{ color: "#8A8A74" }}
+                >
+                  You can also email me directly at{" "}
+                  <a href="mailto:sdrtharun@gmail.com" className="underline" style={{ color: "#D4983A" }}>
+                    sdrtharun@gmail.com
+                  </a>
+                </p>
+                <button
+                  onClick={resetForm}
+                  className="font-body font-semibold px-6 sm:px-8 py-2.5 sm:py-3 transition-all duration-300 hover:-translate-y-0.5 text-sm sm:text-base"
                   style={{
                     background: "linear-gradient(135deg, #D4983A 0%, #DEAE4A 100%)",
                     color: "#191714",
@@ -178,11 +229,85 @@ function ContactSection() {
                     boxShadow: "0 4px 20px rgba(196, 154, 74, 0.2)",
                   }}
                 >
-                  <Send size={15} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  <span>Send Inquiry</span>
+                  Try Again
                 </button>
               </div>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <div className="relative mb-4">
+                  <User size={14} className="absolute left-4 top-4 pointer-events-none" style={{ color: "#C07840" }} />
+                  <input
+                    name="name"
+                    placeholder="Your Name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    onFocus={() => setFocused("name")}
+                    onBlur={() => setFocused(null)}
+                    required
+                    className="w-full pl-10 pr-4 py-3.5 text-sm sm:text-base font-body transition-all duration-200 placeholder-gray-400"
+                    style={{ ...inputStyle("name"), borderRadius: "12px" }}
+                  />
+                </div>
+
+                <div className="relative mb-4">
+                  <Mail size={14} className="absolute left-4 top-4 pointer-events-none" style={{ color: "#C07840" }} />
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="Email Address"
+                    value={formData.email}
+                    onChange={handleChange}
+                    onFocus={() => setFocused("email")}
+                    onBlur={() => setFocused(null)}
+                    required
+                    className="w-full pl-10 pr-4 py-3.5 text-sm sm:text-base font-body transition-all duration-200 placeholder-gray-400"
+                    style={{ ...inputStyle("email"), borderRadius: "12px" }}
+                  />
+                </div>
+
+                <textarea
+                  name="message"
+                  rows={4}
+                  placeholder="Your Message..."
+                  value={formData.message}
+                  onChange={handleChange}
+                  onFocus={() => setFocused("message")}
+                  onBlur={() => setFocused(null)}
+                  required
+                  className="w-full mb-6 px-4 py-3.5 text-sm sm:text-base font-body transition-all duration-200 placeholder-gray-400 resize-none"
+                  style={{ ...inputStyle("message"), borderRadius: "12px" }}
+                />
+
+                <div className="text-center">
+                  <button
+                    type="submit"
+                    disabled={status === "sending"}
+                    className="group inline-flex items-center gap-2 sm:gap-2.5 px-6 sm:px-10 py-3 sm:py-3.5 font-body font-semibold text-sm sm:text-base transition-all duration-300 hover:-translate-y-0.5 w-full sm:w-auto justify-center disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                    style={{
+                      background: "linear-gradient(135deg, #D4983A 0%, #DEAE4A 100%)",
+                      color: "#191714",
+                      borderRadius: "9999px",
+                      boxShadow: "0 4px 20px rgba(196, 154, 74, 0.2)",
+                    }}
+                  >
+                    {status === "sending" ? (
+                      <>
+                        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                        </svg>
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send size={15} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                        <span>Send Inquiry</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>
