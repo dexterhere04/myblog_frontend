@@ -782,7 +782,7 @@ export default function WaterfallBackground() {
           left: 0,
           width: "100vw",
           height: "100dvh",
-          zIndex: -10,
+          zIndex: 0,
           pointerEvents: "none",
           overflow: "hidden",
         }}

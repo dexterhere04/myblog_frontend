@@ -8,7 +8,7 @@ import AboutSection from "./AboutSection";
 
 export default function Home() {
   return (
-    <div className="relative min-h-dvh">
+    <div className="relative z-[1] min-h-dvh">
       <HeroSection />
       <ForestRidgeDivider />
       <BlogsSection />
