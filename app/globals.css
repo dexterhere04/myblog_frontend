@@ -127,15 +127,27 @@
 
 /* ─── Base ──────────────────────────────────── */
 
-html, body {
+html {
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+}
+
+body {
   overflow-x: hidden;
   position: relative;
   width: 100%;
   min-height: 100dvh;
+  color: #FBF7EF;
+  background-color: var(--deep-forest);
+  font-family: var(--font-body), Georgia, serif;
+  overscroll-behavior-y: none;
 }
 
 body {
   color: #FBF7EF;
+  background-color: var(--deep-forest);
   font-family: var(--font-body), Georgia, serif;
   overscroll-behavior-y: none;
 }
