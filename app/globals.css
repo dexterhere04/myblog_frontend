@@ -125,7 +125,18 @@
   animation: grain 8s steps(10) infinite;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .grain-overlay::after {
+    animation: none !important;
+  }
+}
+
 /* ─── Base ──────────────────────────────────── */
+
+.section-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 100vh;
+}
 
 html {
   overflow-x: hidden;
@@ -149,9 +160,7 @@ body {
   pointer-events: none !important;
 }
 
-#waterfall-bg {
-  will-change: transform;
-}
+
 
 @media (prefers-reduced-motion: reduce) {
   *,

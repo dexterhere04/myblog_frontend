@@ -1,10 +1,12 @@
+import dynamic from "next/dynamic"
 import HeroSection from "./HeroSection";
-import BlogsSection from "./BlogsSection";
 import ForestRidgeDivider from "./MountainDivider";
 import FallenLogDivider from "./FallenLogDivider";
-import ContactSection from "./ContactSection";
 import DeepRootsDivider from "./DeepRootsDivider";
-import AboutSection from "./AboutSection";
+
+const BlogsSection = dynamic(() => import("./BlogsSection"))
+const ContactSection = dynamic(() => import("./ContactSection"))
+const AboutSection = dynamic(() => import("./AboutSection"))
 
 export default function Home() {
   return (

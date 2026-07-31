@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import { Playfair_Display, Lora } from "next/font/google";
 import "./globals.css";
 import Navbar from "./Navbar";
 import EnableWheelScroll from "./EnableWheelScroll";
 import AudioProvider from "./AudioContext";
 import WaterfallAudio from "./WaterfallAudio";
-
-const WaterfallBackground = dynamic(() => import("./WaterfallBackground"));
+import WaterfallWrapper from "./WaterfallWrapper";
 
 const playfair = Playfair_Display({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "600", "700"],
 });
 
 const lora = Lora({
@@ -39,7 +37,7 @@ export default function RootLayout({
         <AudioProvider>
           <Navbar />
           <WaterfallAudio />
-          <WaterfallBackground />
+          <WaterfallWrapper />
           <EnableWheelScroll />
           {children}
         </AudioProvider>

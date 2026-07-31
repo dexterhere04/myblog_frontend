@@ -3,18 +3,69 @@
 import React, { useRef, useMemo, useEffect, useState } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import * as THREE from "three"
+import type { QualityTier } from "./useDeviceCapability"
 
-// ─── Configuration ───────────────────────────────────────────────
 const WALL_RADIUS = 7
 const WALL_HEIGHT = 14
 const WALL_ARC = Math.PI * 0.92
 const WALL_CURVE_DEPTH = 4
 const WALL_BASE_Z = 3.5
-const WALL_SEG_W = 48
-const WALL_SEG_H = 40
 
 const POOL_RADIUS = 6
 const POOL_SEG = 48
+
+function getConfig(q: QualityTier) {
+  switch (q) {
+    case "low":
+      return {
+        WALL_SEG_W: 8,
+        WALL_SEG_H: 8,
+        WALL_LAYERS: 1,
+        SHOW_CLIFF: false,
+        SHOW_FOLIAGE: false,
+        SHOW_CANOPY: false,
+        SHOW_MIST: false,
+        SHOW_RAYS: false,
+        SHOW_FOREGROUND: false,
+        SHOW_POOL: false,
+        PARALLAX: false,
+        DPR: [0.25, 0.5] as [number, number],
+        ANTIALIAS: false,
+      }
+    case "medium":
+      return {
+        WALL_SEG_W: 16,
+        WALL_SEG_H: 14,
+        WALL_LAYERS: 2,
+        SHOW_CLIFF: false,
+        SHOW_FOLIAGE: false,
+        SHOW_CANOPY: false,
+        SHOW_MIST: false,
+        SHOW_RAYS: false,
+        SHOW_FOREGROUND: false,
+        SHOW_POOL: false,
+        PARALLAX: false,
+        DPR: [0.5, 0.75] as [number, number],
+        ANTIALIAS: false,
+      }
+    default:
+      return {
+        WALL_SEG_W: 48,
+        WALL_SEG_H: 40,
+        WALL_LAYERS: 3,
+        SHOW_CLIFF: true,
+        SHOW_FOLIAGE: true,
+        SHOW_CANOPY: true,
+        SHOW_MIST: true,
+        SHOW_RAYS: true,
+        SHOW_FOREGROUND: true,
+        SHOW_POOL: true,
+        PARALLAX: true,
+        DPR: [1, 1.5] as [number, number],
+        ANTIALIAS: true,
+      }
+  }
+}
 
 const C = {
   deep: new THREE.Color(0x0a2e28),
@@ -386,9 +437,9 @@ const FRAG_POOL = `
 
 // ─── Water Wall Layer ──────────────────────────────────────────
 const WaterWallLayer = React.memo(function WaterWallLayer({
-  speed, opacity, zOff,
+  speed, opacity, zOff, segW, segH,
 }: {
-  speed: number; opacity: number; zOff: number
+  speed: number; opacity: number; zOff: number; segW: number; segH: number
 }) {
   const ref = useRef<THREE.ShaderMaterial>(null!)
   const prevSize = useRef({ w: 0, h: 0 })
@@ -423,7 +474,7 @@ const WaterWallLayer = React.memo(function WaterWallLayer({
 
   return (
     <mesh>
-      <planeGeometry args={[wallWidth, WALL_HEIGHT, WALL_SEG_W, WALL_SEG_H]} />
+      <planeGeometry args={[wallWidth, WALL_HEIGHT, segW, segH]} />
       <shaderMaterial
         ref={ref}
         uniforms={uni}
@@ -690,14 +741,34 @@ const WaterPool = React.memo(function WaterPool() {
 const SceneContent = React.memo(function SceneContent({
   mouse,
   reducedMotion,
+  quality,
 }: {
   mouse: React.MutableRefObject<{ x: number; y: number }>
   reducedMotion: boolean
+  quality: QualityTier
 }) {
+  const config = getConfig(quality)
   const groupRef = useRef<THREE.Group>(null!)
   const { camera } = useThree()
 
   useEffect(() => {
+    const group = groupRef.current
+    return () => {
+      group?.traverse((obj) => {
+        if (obj instanceof THREE.Mesh) {
+          obj.geometry?.dispose()
+          if (Array.isArray(obj.material)) {
+            obj.material.forEach((m) => m.dispose())
+          } else {
+            obj.material?.dispose()
+          }
+        }
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!config.PARALLAX) return
     let rAF = 0
     const updateLayout = () => {
       if (rAF) return
@@ -726,10 +797,10 @@ const SceneContent = React.memo(function SceneContent({
       window.removeEventListener("resize", updateLayout)
       if (rAF) cancelAnimationFrame(rAF)
     }
-  }, [camera])
+  }, [camera, config.PARALLAX])
 
   useFrame(() => {
-    if (!groupRef.current || reducedMotion) return
+    if (!groupRef.current || reducedMotion || !config.PARALLAX) return
     const targetRotY = mouse.current.x * 0.025
     const targetRotX = mouse.current.y * 0.018
     groupRef.current.rotation.y += (targetRotY - groupRef.current.rotation.y) * 0.02
@@ -738,17 +809,17 @@ const SceneContent = React.memo(function SceneContent({
 
   return (
     <group ref={groupRef}>
-      <CliffFace />
-      <WaterWallLayer speed={0.35} opacity={0.65} zOff={0} />
-      <WaterWallLayer speed={0.6} opacity={0.45} zOff={0.15} />
-      <WaterWallLayer speed={1.0} opacity={0.3} zOff={0.3} />
-      <ForestCanopy />
-      <SideFoliage side="left" />
-      <SideFoliage side="right" />
-      <Foreground />
-      <LightRays mouse={mouse} />
-      <MistLayer />
-      <WaterPool />
+      {config.SHOW_CLIFF && <CliffFace />}
+      {config.WALL_LAYERS >= 1 && <WaterWallLayer speed={0.35} opacity={0.65} zOff={0} segW={config.WALL_SEG_W} segH={config.WALL_SEG_H} />}
+      {config.WALL_LAYERS >= 2 && <WaterWallLayer speed={0.6} opacity={0.45} zOff={0.15} segW={config.WALL_SEG_W} segH={config.WALL_SEG_H} />}
+      {config.WALL_LAYERS >= 3 && <WaterWallLayer speed={1.0} opacity={0.3} zOff={0.3} segW={config.WALL_SEG_W} segH={config.WALL_SEG_H} />}
+      {config.SHOW_CANOPY && <ForestCanopy />}
+      {config.SHOW_FOLIAGE && <SideFoliage side="left" />}
+      {config.SHOW_FOLIAGE && <SideFoliage side="right" />}
+      {config.SHOW_FOREGROUND && <Foreground />}
+      {config.SHOW_RAYS && <LightRays mouse={mouse} />}
+      {config.SHOW_MIST && <MistLayer />}
+      {config.SHOW_POOL && <WaterPool />}
     </group>
   )
 })
@@ -771,16 +842,10 @@ function useReducedMotion() {
 }
 
 // ─── Main Export ────────────────────────────────────────────────
-export default function WaterfallBackground() {
+export default function WaterfallBackground({ quality }: { quality: QualityTier }) {
+  const config = getConfig(quality)
   const mouse = useRef({ x: 0, y: 0 })
   const reducedMotion = useReducedMotion()
-  const [dpr] = useState<[number, number]>(() => {
-    if (typeof window !== "undefined") {
-      const isMobile = window.innerWidth < 768
-      return isMobile ? [1, 1.5] : [1, Math.min(1.75, window.devicePixelRatio)]
-    }
-    return [1, 1.85]
-  })
 
   return (
     <div
@@ -798,10 +863,10 @@ export default function WaterfallBackground() {
       >
         <Canvas
           camera={{ position: [0, 1.5, 8], fov: 55, near: 0.1, far: 30 }}
-          dpr={dpr}
+          dpr={config.DPR}
           performance={{ min: 0.5 }}
           gl={{
-            antialias: true,
+            antialias: config.ANTIALIAS,
             alpha: false,
             powerPreference: "high-performance",
             stencil: false,
@@ -813,9 +878,8 @@ export default function WaterfallBackground() {
             pointerEvents: "none",
           }}
         >
-          <color attach="background" args={["#060F0C"]} />
-          <ambientLight intensity={0.3} />
-          <SceneContent mouse={mouse} reducedMotion={reducedMotion} />
+        <color attach="background" args={["#060F0C"]} />
+        <SceneContent mouse={mouse} reducedMotion={reducedMotion} quality={quality} />
         </Canvas>
       </div>
   )

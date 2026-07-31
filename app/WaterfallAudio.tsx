@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useCallback } from "react"
 import { useAudio } from "./AudioContext"
 
 export default function WaterfallAudio() {
@@ -7,28 +7,12 @@ export default function WaterfallAudio() {
   const ctxRef = useRef<AudioContext | null>(null)
   const sourceRef = useRef<AudioBufferSourceNode | null>(null)
   const masterGainRef = useRef<GainNode | null>(null)
-  const startedRef = useRef(false)
+  const loadedRef = useRef(false)
+  const suspendTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined)
 
-  useEffect(() => {
-    if (!ctxRef.current || !masterGainRef.current) return
-
-    if (isMuted) {
-      masterGainRef.current.gain.linearRampToValueAtTime(
-        0,
-        ctxRef.current.currentTime + 0.8,
-      )
-    } else {
-      ctxRef.current.resume()
-      masterGainRef.current.gain.linearRampToValueAtTime(
-        0.45,
-        ctxRef.current.currentTime + 0.8,
-      )
-    }
-  }, [isMuted])
-
-  useEffect(() => {
-    if (startedRef.current) return
-    startedRef.current = true
+  const createAndPlay = useCallback(() => {
+    if (loadedRef.current) return
+    loadedRef.current = true
 
     const ctx = new AudioContext()
     ctxRef.current = ctx
@@ -51,17 +35,46 @@ export default function WaterfallAudio() {
         source.start()
         sourceRef.current = source
 
-        if (!isMuted) {
-          ctx.resume()
-          masterGain.gain.linearRampToValueAtTime(0.45, ctx.currentTime + 0.8)
-        }
+        ctx.resume()
+        masterGain.gain.linearRampToValueAtTime(0.45, ctx.currentTime + 0.8)
       })
       .catch(() => {})
+  }, [])
 
-    return () => {
-      ctx.close()
+  useEffect(() => {
+    if (!ctxRef.current || !masterGainRef.current) return
+
+    if (isMuted) {
+      masterGainRef.current.gain.linearRampToValueAtTime(
+        0,
+        ctxRef.current.currentTime + 0.8,
+      )
+      suspendTimerRef.current = setTimeout(() => {
+        ctxRef.current?.suspend()
+      }, 30000)
+    } else {
+      if (suspendTimerRef.current) {
+        clearTimeout(suspendTimerRef.current)
+        suspendTimerRef.current = undefined
+      }
+      if (!loadedRef.current) {
+        createAndPlay()
+        return
+      }
+      ctxRef.current.resume()
+      masterGainRef.current.gain.linearRampToValueAtTime(
+        0.45,
+        ctxRef.current.currentTime + 0.8,
+      )
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMuted, createAndPlay])
+
+  useEffect(() => {
+    return () => {
+      if (suspendTimerRef.current) clearTimeout(suspendTimerRef.current)
+      ctxRef.current?.close()
+      loadedRef.current = false
+    }
   }, [])
 
   return null

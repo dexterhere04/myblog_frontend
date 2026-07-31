@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { Volume2, VolumeX } from 'lucide-react'
 import { useAudio } from './AudioContext'
+import { useDeviceCapability } from './useDeviceCapability'
 
 function Navbar() {
   const [activeLink, setActiveLink] = useState('Home')
@@ -15,6 +16,8 @@ function Navbar() {
   const { isMuted, toggleMute } = useAudio()
   const [intenseBlink, setIntenseBlink] = useState(true)
   const [shouldBlink, setShouldBlink] = useState(true)
+  const quality = useDeviceCapability()
+  const isLow = quality === "low"
 
   const handleMuteClick = () => {
     setIntenseBlink(false)
@@ -32,10 +35,10 @@ function Navbar() {
     <nav
       className="navbar fixed top-0 left-0 right-0 z-50 px-3 sm:px-6 py-3 sm:py-4 transition-all duration-300"
       style={{
-        background: 'rgba(9, 20, 16, 0.8)',
+        background: isLow ? 'rgba(9, 20, 16, 0.97)' : 'rgba(9, 20, 16, 0.8)',
         boxShadow: '0 4px 24px rgba(0, 0, 0, 0.25)',
-        backdropFilter: 'blur(18px)',
-        WebkitBackdropFilter: 'blur(18px)',
+        backdropFilter: isLow ? 'none' : 'blur(18px)',
+        WebkitBackdropFilter: isLow ? 'none' : 'blur(18px)',
         borderBottom: '1px solid rgba(74, 106, 74, 0.2)',
       }}
     >
@@ -137,9 +140,9 @@ function Navbar() {
         <div
           className="md:hidden mt-3 rounded-xl p-3 space-y-1"
           style={{
-            background: 'rgba(9, 20, 16, 0.95)',
-            backdropFilter: 'blur(18px)',
-            WebkitBackdropFilter: 'blur(18px)',
+            background: isLow ? 'rgba(9, 20, 16, 0.99)' : 'rgba(9, 20, 16, 0.95)',
+            backdropFilter: isLow ? 'none' : 'blur(18px)',
+            WebkitBackdropFilter: isLow ? 'none' : 'blur(18px)',
             border: '1px solid rgba(74, 106, 74, 0.2)',
             boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
             animation: 'fade-up 0.2s ease-out both',
